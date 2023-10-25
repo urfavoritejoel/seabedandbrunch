@@ -30,8 +30,9 @@ router.get('/', async (req, res) => {
     res.json(spots);
 });
 
-// router.post('/', async (req, res) => {
-//     const spot = await Spot.create(req.body)
-// })
+router.post('/', async (req, res) => {
+    const spot = await Spot.create(req.body)
+    res.json(spot);
+})
 
 module.exports = router;
