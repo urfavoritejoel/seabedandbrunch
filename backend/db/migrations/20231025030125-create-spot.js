@@ -1,4 +1,5 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -22,7 +23,7 @@ module.exports = {
       state: {
         type: Sequelize.STRING
       },
-      county: {
+      country: {
         type: Sequelize.STRING
       },
       lat: {
@@ -53,6 +54,10 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Spots');
+    options.tableName = 'Users';
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, {
+      username: { [Op.in]: ['demoUser'] }
+    }, {});
   }
 };
