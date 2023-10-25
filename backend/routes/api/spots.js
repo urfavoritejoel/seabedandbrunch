@@ -3,6 +3,11 @@ const { Spot } = require('../../db/models');
 
 const router = express.Router();
 
+router.post('/', async (req, res) => {
+    const spot = await Spot.create(req.body)
+    res.json(spot);
+});
+
 router.get('/current', async (req, res) => {
     const { user } = req;
     let spots = {};
@@ -17,7 +22,7 @@ router.get('/current', async (req, res) => {
     } else {
         throw new Error('error')
     }
-})
+});
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
@@ -30,9 +35,5 @@ router.get('/', async (req, res) => {
     res.json(spots);
 });
 
-router.post('/', async (req, res) => {
-    const spot = await Spot.create(req.body)
-    res.json(spot);
-})
 
 module.exports = router;
