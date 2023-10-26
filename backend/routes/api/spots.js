@@ -25,6 +25,18 @@ router.post('/:spotId/reviews', async (req, res) => {
     res.json(review);
 });
 
+//Get all reviews by spotId
+router.get('/:spotId/reviews', async (req, res) => {
+    const { spotId } = req.params;
+    const reviews = await Review.findAll({
+        include: 'Spot',
+        where: {
+            spotId: spotId
+        }
+    });
+    res.json(reviews);
+});
+
 //Create spot
 router.post('/', async (req, res) => {
     const spot = await Spot.create(req.body)
