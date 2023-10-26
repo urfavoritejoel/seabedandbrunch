@@ -13,6 +13,8 @@ router.post('/:spotId/images', async (req, res) => {
     res.json(spotImage);
 });
 
+
+
 // Add a review to spot by ID
 router.post('/:spotId/reviews', async (req, res) => {
     const { spotId } = req.params;
