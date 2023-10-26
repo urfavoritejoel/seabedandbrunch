@@ -1,7 +1,16 @@
 const express = require('express');
-const { Spot } = require('../../db/models');
+const { Spot, SpotImage } = require('../../db/models');
 
 const router = express.Router();
+
+router.post('/:spotId/images', async (req, res) => {
+    const { spotId } = req.params;
+    const spot = await Spot.findByPk(spotId);
+    const spotImage = await SpotImage.create(req.body);
+    spotImage.spotId = spotId
+    await spot.addSpotImage(spotImage);
+    res.json(spotImage);
+});
 
 router.post('/', async (req, res) => {
     const spot = await Spot.create(req.body)
@@ -25,7 +34,7 @@ router.get('/current', async (req, res) => {
 });
 
 router.get('/:spotId', async (req, res) => {
-    const { id } = req.params;
+    const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
     res.json(spot);
 });
@@ -45,6 +54,8 @@ router.delete('/:spotId', async (req, res) => {
         message: "Successfully deleted spot"
     });
 });
+
+
 
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll();
