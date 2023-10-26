@@ -30,13 +30,13 @@ router.put('/:bookingId', async (req, res) => {
     res.json(updatedBooking);
 });
 
-// //Delete a review
-// router.delete('/:reviewId', async (req, res) => {
-//     const { reviewId } = req.params;
-//     const review = await Review.findByPk(reviewId);
-//     await review.destroy();
-//     res.json({ message: "Successfully deleted review" });
-// });
+//Delete a booking
+router.delete('/:bookingId', async (req, res) => {
+    const { bookingId } = req.params;
+    const booking = await Booking.findByPk(bookingId);
+    await booking.destroy();
+    res.json({ message: "Successfully deleted booking" });
+});
 
 
 module.exports = router;
