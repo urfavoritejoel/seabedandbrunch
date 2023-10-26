@@ -32,12 +32,19 @@ router.get('/:spotId', async (req, res) => {
 
 router.put('/:spotId', async (req, res) => {
     const { spotId } = req.params;
-    // const {ownerId, address, city, state, country, lat, lng, name,
-    // description, price} = req.body;
     const spot = await Spot.findByPk(spotId);
     const updatedSpot = await spot.update(req.body);
     res.json(updatedSpot);
-})
+});
+
+router.delete('/:spotId', async (req, res) => {
+    const { spotId } = req.params;
+    const spot = await Spot.findByPk(spotId);
+    await spot.destroy();
+    res.json({
+        message: "Successfully deleted spot"
+    });
+});
 
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll();
