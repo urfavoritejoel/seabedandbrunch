@@ -37,6 +37,18 @@ router.get('/:spotId/reviews', async (req, res) => {
     res.json(reviews);
 });
 
+//Get all bookings by spotId
+router.get('/:spotId/bookings', async (req, res) => {
+    const { spotId } = req.params;
+    const bookings = await Booking.findAll({
+        include: 'Spot',
+        where: {
+            spotId: spotId
+        }
+    });
+    res.json(bookings);
+});
+
 // Add a booking to spot by ID
 router.post('/:spotId/bookings', async (req, res) => {
     const { spotId } = req.params;
