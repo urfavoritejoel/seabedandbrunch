@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review } = require('../../db/models');
+const { Spot, Review, ReviewImage } = require('../../db/models');
 
 const router = express.Router();
 
@@ -37,6 +37,16 @@ router.get('/current', async (req, res) => {
     } else {
         throw new Error('error')
     }
+});
+
+// Add an image to review by ID
+router.post('/:reviewId/images', async (req, res) => {
+    const { reviewId } = req.params;
+    const review = await Review.findByPk(req.params.reviewId);
+    const reviewImage = await ReviewImage.create(req.body);
+    await reviewImage.setReview(review);
+    await review.addReviewImage(reviewImage);
+    res.json(reviewImage);
 });
 
 module.exports = router;
