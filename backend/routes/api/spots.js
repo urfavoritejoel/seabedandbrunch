@@ -24,11 +24,20 @@ router.get('/current', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:spotId', async (req, res) => {
     const { id } = req.params;
-    const spot = await Spot.findByPk(id);
+    const spot = await Spot.findByPk(spotId);
     res.json(spot);
 });
+
+router.put('/:spotId', async (req, res) => {
+    const { spotId } = req.params;
+    // const {ownerId, address, city, state, country, lat, lng, name,
+    // description, price} = req.body;
+    const spot = await Spot.findByPk(spotId);
+    const updatedSpot = await spot.update(req.body);
+    res.json(updatedSpot);
+})
 
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll();
