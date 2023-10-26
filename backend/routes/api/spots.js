@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, SpotImage, Review } = require('../../db/models');
+const { Spot, SpotImage, Review, Booking } = require('../../db/models');
 
 const router = express.Router();
 
@@ -35,6 +35,18 @@ router.get('/:spotId/reviews', async (req, res) => {
         }
     });
     res.json(reviews);
+});
+
+// Add a booking to spot by ID
+router.post('/:spotId/bookings', async (req, res) => {
+    const { spotId } = req.params;
+    const { user } = req;
+    const spot = await Spot.findByPk(spotId);
+    const booking = await Booking.create(req.body);
+    await booking.setSpot(spot);
+    await booking.setUser(user);
+    await spot.addBooking(booking);
+    res.json(booking);
 });
 
 //Create spot

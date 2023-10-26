@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, ReviewImage } = require('../../db/models');
+const { Review, ReviewImage } = require('../../db/models');
 
 const router = express.Router();
 
@@ -24,7 +24,6 @@ router.delete('/:reviewId', async (req, res) => {
 //Get all reviews of the current user
 router.get('/current', async (req, res) => {
     const { user } = req;
-    console.log(user);
     let reviews = {};
     if (user) {
         reviews = await Review.findAll({

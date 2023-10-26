@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, { foreignKey: 'ownerId' });
       this.hasMany(models.SpotImage, { foreignKey: 'spotId' });
       this.hasMany(models.Review, { foreignKey: 'spotId' });
+      this.hasMany(models.Booking, { foreignKey: 'spotId' });
     }
   }
   Spot.init({
