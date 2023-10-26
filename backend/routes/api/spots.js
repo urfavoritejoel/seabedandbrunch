@@ -8,7 +8,7 @@ router.post('/:spotId/images', async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
     const spotImage = await SpotImage.create(req.body);
-    spotImage.spotId = spot.id
+    await spotImage.setSpot(spot);
     await spot.addSpotImage(spotImage);
     res.json(spotImage);
 });
@@ -19,8 +19,8 @@ router.post('/:spotId/reviews', async (req, res) => {
     const { user } = req;
     const spot = await Spot.findByPk(spotId);
     const review = await Review.create(req.body);
-    review.spotId = spot.id;
-    review.userId = user.id;
+    await review.setSpot(spot);
+    await review.setUser(user);
     await spot.addReview(review);
     res.json(review);
 });
