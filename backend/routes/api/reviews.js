@@ -9,7 +9,7 @@ router.put('/:reviewId', async (req, res) => {
     const { user } = req
     const review = await Review.findByPk(reviewId);
     const updatedReview = await review.update(req.body);
-    updatedReview.userId = user.id
+    await updatedReview.setUser(user);
     res.json(updatedReview);
 });
 
