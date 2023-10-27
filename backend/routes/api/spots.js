@@ -8,10 +8,17 @@ const router = express.Router();
 router.post('/:spotId/images', async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
-    const spotImage = await SpotImage.create(req.body);
-    await spotImage.setSpot(spot);
-    await spot.addSpotImage(spotImage);
-    res.json(spotImage);
+    if (spot) {
+        const spotImage = await SpotImage.create(req.body);
+        await spotImage.setSpot(spot);
+        await spot.addSpotImage(spotImage);
+        return res.json(spotImage);
+    } else {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
 });
 
 
@@ -66,7 +73,28 @@ router.post('/:spotId/bookings', async (req, res) => {
 
 //Create spot
 router.post('/', async (req, res) => {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    let errors = {};
+
+    if (!address) errors.address = "Street address is required";
+    if (!city) errors.city = "City is required";
+    if (!state) errors.state = "State is required";
+    if (!country) errors.country = "Country is required";
+    if (!lat || lat < -90 || lat > 90) errors.lat = "Latitude is not valid";
+    if (!lng || lng < -180 || lng > 180) errors.lng = "Longitude is not valid";
+    if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
+    if (!description) errors.description = "Description is required";
+    if (!price) errors.price = "Price per day is required";
+
+    if (Object.keys(errors).length > 0) {
+        res.status(400);
+        return res.json({
+            errors: errors
+        })
+    }
+
     const spot = await Spot.create(req.body)
+
     res.json(spot);
 });
 
@@ -91,13 +119,45 @@ router.get('/current', async (req, res) => {
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
-    res.json(spot);
+    if (spot) {
+        return res.json(spot);
+    } else {
+        res.status(404);
+        res.json({
+            message: "Spot couldn't be found"
+        })
+    }
 });
 
 //Edit a spot
 router.put('/:spotId', async (req, res) => {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+        res.status(404);
+        res.json({
+            message: "Spot couldn't be found"
+        })
+    };
+    let errors = {};
+
+    if (!address) errors.address = "Street address is required";
+    if (!city) errors.city = "City is required";
+    if (!state) errors.state = "State is required";
+    if (!country) errors.country = "Country is required";
+    if (!lat || lat < -90 || lat > 90) errors.lat = "Latitude is not valid";
+    if (!lng || lng < -180 || lng > 180) errors.lng = "Longitude is not valid";
+    if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
+    if (!description) errors.description = "Description is required";
+    if (!price) errors.price = "Price per day is required";
+
+    if (Object.keys(errors).length > 0) {
+        res.status(400);
+        return res.json({
+            errors: errors
+        })
+    }
     const updatedSpot = await spot.update(req.body);
     res.json(updatedSpot);
 });
@@ -106,10 +166,17 @@ router.put('/:spotId', async (req, res) => {
 router.delete('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
-    await spot.destroy();
-    res.json({
-        message: "Successfully deleted spot"
-    });
+    if (spot) {
+        await spot.destroy();
+        return res.json({
+            message: "Successfully deleted"
+        });
+    } else {
+        res.status(404);
+        res.json({
+            message: "Spot couldn't be found"
+        })
+    }
 });
 
 //Get all spots
@@ -153,7 +220,6 @@ router.get('/', async (req, res) => {
     };
 
     if (maxLat && !Number.isNaN(maxLat)) {
-        // const { Op } = require("sequelize");
         where.lat = { [Op.lte]: maxLat };
     } else if (Number.isNaN(maxLat)) {
         res.status(400);
@@ -165,7 +231,6 @@ router.get('/', async (req, res) => {
     };
 
     if (minLng && !Number.isNaN(minLng)) {
-        // const { Op } = require("sequelize");
         where.lng = { [Op.gte]: minLng };
     } else if (Number.isNaN(minLng)) {
         res.status(400);
@@ -177,7 +242,6 @@ router.get('/', async (req, res) => {
     };
 
     if (maxLng && !Number.isNaN(maxLng)) {
-        // const { Op } = require("sequelize");
         where.lng = { [Op.lte]: maxLng };
     } else if (Number.isNaN(maxLng)) {
         res.status(400);
@@ -189,7 +253,6 @@ router.get('/', async (req, res) => {
     };
 
     if (minPrice && !Number.isNaN(minPrice) && minPrice >= 0) {
-        // const { Op } = require("sequelize");
         where.price = { [Op.gte]: minPrice };
     } else if (Number.isNaN(minPrice) || minPrice < 0) {
         res.status(400);
@@ -201,7 +264,6 @@ router.get('/', async (req, res) => {
     };
 
     if (maxPrice && !Number.isNaN(maxPrice) && maxPrice >= 0) {
-        // const { Op } = require("sequelize");
         where.price = { [Op.lte]: maxPrice };
     } else if (Number.isNaN(maxPrice) || maxPrice < 0) {
         res.status(400);
