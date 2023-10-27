@@ -1,8 +1,68 @@
 const express = require('express');
 const { Spot, SpotImage, Review, Booking } = require('../../db/models');
 const { Op } = require("sequelize");
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
+
+const validateSpot = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Street address is required'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('City is required'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('State is required'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Country is required'),
+    check('lat')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .isDecimal({ min: -90, max: 90 })
+        .withMessage('Latitude is not valid'),
+    check('lng')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .isDecimal({ min: -180, max: 180 })
+        .withMessage('Longitude is not valid'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .isLength({ max: 49 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Description is required'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .isNumeric()
+        .withMessage('Price per day is required'),
+
+    handleValidationErrors
+];
+
+const validateReview = [
+    check('review')
+        .exists()
+        .notEmpty()
+        .withMessage('Review text is required'),
+    check('stars')
+        .exists()
+        .notEmpty()
+        .isInt({ min: 1, max: 5 })
+        .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+]
 
 // Add an image to spot by ID
 router.post('/:spotId/images', async (req, res) => {
@@ -21,18 +81,40 @@ router.post('/:spotId/images', async (req, res) => {
     }
 });
 
-
-
 // Add a review to spot by ID
-router.post('/:spotId/reviews', async (req, res) => {
+router.post('/:spotId/reviews', validateReview, async (req, res) => {
     const { spotId } = req.params;
     const { user } = req;
+    let { review, stars } = req.body
+    stars = parseInt(stars);
     const spot = await Spot.findByPk(spotId);
-    const review = await Review.create(req.body);
-    await review.setSpot(spot);
-    await review.setUser(user);
-    await spot.addReview(review);
-    res.json(review);
+
+    //If spotId does not exist
+    if (!spot) {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    };
+    //If current user already has review for spot
+    const userReview = Review.findAll({
+        where: {
+            userId: user.id,
+            spotId: spot.id
+        }
+    });
+    if (userReview) {
+        res.status(500);
+        return res.json({
+            message: "User already has a review for this spot"
+        })
+    }
+    //Success
+    const newReview = await Review.create(req.body);
+    await newReview.setSpot(spot);
+    await newReview.setUser(user);
+    await spot.addReview(newReview);
+    res.json(newReview);
 });
 
 //Get all reviews by spotId
@@ -44,7 +126,14 @@ router.get('/:spotId/reviews', async (req, res) => {
             spotId: spotId
         }
     });
-    res.json(reviews);
+    if (reviews.length > 0) {
+        res.json(reviews);
+    } else {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
 });
 
 //Get all bookings by spotId
@@ -72,29 +161,8 @@ router.post('/:spotId/bookings', async (req, res) => {
 });
 
 //Create spot
-router.post('/', async (req, res) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
-    let errors = {};
-
-    if (!address) errors.address = "Street address is required";
-    if (!city) errors.city = "City is required";
-    if (!state) errors.state = "State is required";
-    if (!country) errors.country = "Country is required";
-    if (!lat || lat < -90 || lat > 90) errors.lat = "Latitude is not valid";
-    if (!lng || lng < -180 || lng > 180) errors.lng = "Longitude is not valid";
-    if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
-    if (!description) errors.description = "Description is required";
-    if (!price) errors.price = "Price per day is required";
-
-    if (Object.keys(errors).length > 0) {
-        res.status(400);
-        return res.json({
-            errors: errors
-        })
-    }
-
+router.post('/', validateSpot, async (req, res) => {
     const spot = await Spot.create(req.body)
-
     res.json(spot);
 });
 
@@ -130,34 +198,15 @@ router.get('/:spotId', async (req, res) => {
 });
 
 //Edit a spot
-router.put('/:spotId', async (req, res) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+router.put('/:spotId', validateSpot, async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
     if (!spot) {
         res.status(404);
-        res.json({
+        return res.json({
             message: "Spot couldn't be found"
         })
     };
-    let errors = {};
-
-    if (!address) errors.address = "Street address is required";
-    if (!city) errors.city = "City is required";
-    if (!state) errors.state = "State is required";
-    if (!country) errors.country = "Country is required";
-    if (!lat || lat < -90 || lat > 90) errors.lat = "Latitude is not valid";
-    if (!lng || lng < -180 || lng > 180) errors.lng = "Longitude is not valid";
-    if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
-    if (!description) errors.description = "Description is required";
-    if (!price) errors.price = "Price per day is required";
-
-    if (Object.keys(errors).length > 0) {
-        res.status(400);
-        return res.json({
-            errors: errors
-        })
-    }
     const updatedSpot = await spot.update(req.body);
     res.json(updatedSpot);
 });
