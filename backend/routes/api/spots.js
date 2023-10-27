@@ -1,5 +1,6 @@
 const express = require('express');
 const { Spot, SpotImage, Review, Booking } = require('../../db/models');
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -113,8 +114,114 @@ router.delete('/:spotId', async (req, res) => {
 
 //Get all spots
 router.get('/', async (req, res) => {
-    const spots = await Spot.findAll();
-    res.json(spots);
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (Number.isNaN(page)) page = 1;
+    if (page < 1) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Page must be greater than or equal to 1", }
+            ]
+        })
+    };
+    if (page > 10) page = 10;
+    if (Number.isNaN(size) || size > 20) size = 20;
+    if (size < 1) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Size must be greater than or equal to 1", }
+            ]
+        })
+    };
+
+    const where = {};
+
+    if (minLat && !Number.isNaN(minLat)) {
+        where.lat = { [Op.gte]: minLat };
+    } else if (Number.isNaN(minLat)) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Minimum latitude is invalid", }
+            ]
+        })
+    };
+
+    if (maxLat && !Number.isNaN(maxLat)) {
+        // const { Op } = require("sequelize");
+        where.lat = { [Op.lte]: maxLat };
+    } else if (Number.isNaN(maxLat)) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Maximum latitude is invalid", }
+            ]
+        })
+    };
+
+    if (minLng && !Number.isNaN(minLng)) {
+        // const { Op } = require("sequelize");
+        where.lng = { [Op.gte]: minLng };
+    } else if (Number.isNaN(minLng)) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Minimum longitude is invalid", }
+            ]
+        })
+    };
+
+    if (maxLng && !Number.isNaN(maxLng)) {
+        // const { Op } = require("sequelize");
+        where.lng = { [Op.lte]: maxLng };
+    } else if (Number.isNaN(maxLng)) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Maximum longitude is invalid", }
+            ]
+        })
+    };
+
+    if (minPrice && !Number.isNaN(minPrice) && minPrice >= 0) {
+        // const { Op } = require("sequelize");
+        where.price = { [Op.gte]: minPrice };
+    } else if (Number.isNaN(minPrice) || minPrice < 0) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Minimum price must be greater than or equal to 0", }
+            ]
+        })
+    };
+
+    if (maxPrice && !Number.isNaN(maxPrice) && maxPrice >= 0) {
+        // const { Op } = require("sequelize");
+        where.price = { [Op.lte]: maxPrice };
+    } else if (Number.isNaN(maxPrice) || maxPrice < 0) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: "Maximum price must be greater than or equal to 0", }
+            ]
+        })
+    };
+
+    const spots = await Spot.findAll({
+        where,
+        limit: size,
+        offset: (page - 1) * size
+    });
+    console.log(where, "*****")
+    res.json({
+        spots,
+        page, size
+    });
 });
 
 
