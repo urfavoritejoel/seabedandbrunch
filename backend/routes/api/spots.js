@@ -64,6 +64,42 @@ const validateReview = [
     handleValidationErrors
 ];
 
+const validateQueries = [
+    check('page')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('Page must be greater than or equal to 1'),
+    check('size')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('Size must be greater than or equal to 1'),
+    check('maxLat')
+        .optional()
+        .isFloat({ min: -90, max: 90 })
+        .withMessage('Maximum latitude is invalid'),
+    check('minLat')
+        .optional()
+        .isFloat({ min: -90, max: 90 })
+        .withMessage('Minimum latitude is invalid'),
+    check('minLng')
+        .optional()
+        .isFloat({ min: -180, max: 180 })
+        .withMessage('Minimum longitude is invalid'),
+    check('maxLng')
+        .optional()
+        .isFloat({ min: -180, max: 180 })
+        .withMessage('Maximum longitude is invalid'),
+    check('minPrice')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('Minimum price must be greater than or equal to 0'),
+    check('maxPrice')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('Maximum price must be greater than or equal to 0'),
+    handleValidationErrors
+]
+
 const validateBookingConflicts = [
     check('endDate')
         .custom(async (value, { req }) => {
@@ -307,44 +343,21 @@ router.delete('/:spotId', async (req, res) => {
 });
 
 //Get all spots
-router.get('/', async (req, res) => {
+router.get('/', validateQueries, async (req, res) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
     page = parseInt(page);
     size = parseInt(size);
 
     if (Number.isNaN(page)) page = 1;
-    if (page < 1) {
-        res.status(400);
-        return res.json({
-            errors: [
-                { message: "Page must be greater than or equal to 1", }
-            ]
-        })
-    };
     if (page > 10) page = 10;
     if (Number.isNaN(size) || size > 20) size = 20;
-    if (size < 1) {
-        res.status(400);
-        return res.json({
-            errors: [
-                { message: "Size must be greater than or equal to 1", }
-            ]
-        })
-    };
 
     const where = {};
 
     if (minLat && !Number.isNaN(minLat)) {
         where.lat = { [Op.gte]: minLat };
-    } else if (Number.isNaN(minLat)) {
-        res.status(400);
-        return res.json({
-            errors: [
-                { message: "Minimum latitude is invalid", }
-            ]
-        })
-    };
+    }
 
     if (maxLat && !Number.isNaN(maxLat)) {
         where.lat = { [Op.lte]: maxLat };
