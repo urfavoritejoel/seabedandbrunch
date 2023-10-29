@@ -1,8 +1,8 @@
 const express = require('express');
-const { Spot, SpotImage, Review, Booking } = require('../../db/models');
+const { User, Spot, SpotImage, Review, Booking } = require('../../db/models');
 const { Op } = require("sequelize");
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { handleValidationErrors, handleBookingConflicts } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -62,6 +62,59 @@ const validateReview = [
         .isInt({ min: 1, max: 5 })
         .withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors
+];
+
+const validateBookingConflicts = [
+    check('endDate')
+        .custom(async (value, { req }) => {
+            const date1 = new Date(value);
+            const date2 = new Date(req.body.startDate);
+            if (date1 <= date2) {
+                throw new Error('endDate cannot be on or before startDate')
+            } else {
+                return true
+            }
+        }),
+    handleValidationErrors,
+    check('startDate')
+        .custom(async (value, { req }) => {
+            const startDate = new Date(value);
+            const endDate = new Date(req.body.endDate)
+            const bookings = await Booking.findAll({ where: { spotId: req.params.spotId } });
+            for (const booking of bookings) {
+                let foundStartDate = new Date(booking.startDate);
+                let foundEndDate = new Date(booking.endDate);
+                if (startDate === foundStartDate ||
+                    startDate === foundEndDate ||
+                    (startDate <= foundEndDate && endDate <= foundEndDate && startDate > foundStartDate) ||
+                    (startDate >= foundStartDate && endDate >= foundStartDate && startDate < foundEndDate)
+                ) {
+                    throw new Error('Start date conflicts with an existing booking')
+                }
+
+            }
+            return value
+        }),
+    check('endDate')
+        .custom(async (value, { req }) => {
+            const startDate = new Date(req.body.startDate);
+            const endDate = new Date(value)
+            const bookings = await Booking.findAll({ where: { spotId: req.params.spotId } });
+            for (const booking of bookings) {
+                let foundStartDate = new Date(booking.startDate);
+                let foundEndDate = new Date(booking.endDate);
+                if (startDate === foundStartDate ||
+                    startDate === foundEndDate ||
+                    (startDate <= foundEndDate && endDate <= foundEndDate && startDate > foundStartDate) ||
+                    (startDate >= foundStartDate && endDate >= foundStartDate && startDate < foundEndDate)
+                ) {
+                    throw new Error('End date conflicts with an existing booking')
+                }
+
+            }
+            return value
+        }),
+    handleBookingConflicts,
 ]
 
 // Add an image to spot by ID
@@ -139,20 +192,45 @@ router.get('/:spotId/reviews', async (req, res) => {
 //Get all bookings by spotId
 router.get('/:spotId/bookings', async (req, res) => {
     const { spotId } = req.params;
-    const bookings = await Booking.findAll({
-        include: 'Spot',
-        where: {
-            spotId: spotId
-        }
-    });
-    res.json(bookings);
+    const { user } = req;
+    const spot = await Spot.findByPk(spotId);
+    let bookings = {};
+    if (!spot) {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    };
+    //If user is the owner of the spot
+    if (spot.ownerId === user.id) {
+        bookings = await spot.getBookings({
+            include: [
+                {
+                    model: User,
+                    attributes: {
+                        exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+                    }
+                }
+            ]
+        });
+    } else {
+        bookings = await spot.getBookings();
+    }
+
+    return res.json(bookings);
 });
 
 // Add a booking to spot by ID
-router.post('/:spotId/bookings', async (req, res) => {
+router.post('/:spotId/bookings', validateBookingConflicts, async (req, res) => {
     const { spotId } = req.params;
     const { user } = req;
     const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    };
     const booking = await Booking.create(req.body);
     await booking.setSpot(spot);
     await booking.setUser(user);

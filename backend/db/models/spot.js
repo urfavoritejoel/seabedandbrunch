@@ -1,4 +1,6 @@
 'use strict';
+
+const { User } = require('../models')
 const {
   Model
 } = require('sequelize');
@@ -30,6 +32,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    defaultScope: {},
+    scopes: {
+      spotOwner: {
+        include: [{
+          model: User,
+          attributes: {
+            exclude: ["hashedPassword", "email", "createdAt", "updatedAt", "username"]
+          }
+        }]
+      }
+    }
   });
   return Spot;
 };
