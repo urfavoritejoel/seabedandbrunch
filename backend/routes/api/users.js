@@ -39,30 +39,30 @@ const validateSignup = [
 const validateDuplicates = [
     check('email')
         .custom(async (value) => {
-            const user = User.findAll({
+            const user = await User.findAll({
                 where: {
                     email: value
                 }
             });
-            if (user) {
+            if (user.length > 0) {
                 throw new Error('User with that email already exists');
             }
         }),
     check('username')
         .custom(async (value) => {
-            const user = User.findAll({
+            const user = await User.findAll({
                 where: {
-                    usernmae: value
+                    username: value
                 }
             });
-            if (user) {
+            if (user.length > 0) {
                 throw new Error('User with that username already exists');
             }
         }),
     handleValidationDuplicates
 ]
 
-router.post('/', validateSignup, validateDuplicates, async (req, res, next) => {
+router.post('/', validateDuplicates, validateSignup, async (req, res, next) => {
     const { firstName, lastName, email, password, username } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({ firstName, lastName, email, username, hashedPassword });

@@ -12,14 +12,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.User, { foreignKey: 'ownerId' });
-      this.hasMany(models.SpotImage, { foreignKey: 'spotId' });
-      this.hasMany(models.Review, { foreignKey: 'spotId' });
-      this.hasMany(models.Booking, { foreignKey: 'spotId' });
+      this.belongsTo(models.User, { foreignKey: 'ownerId', as: 'Owner' });
+      this.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true });
+      this.hasMany(models.Review, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true });
+      this.hasMany(models.Booking, { foreignKey: 'spotId', onDelete: 'cascade', hooks: true });
     }
   }
   Spot.init({
-    ownerId: DataTypes.INTEGER,
     address: DataTypes.STRING,
     city: DataTypes.STRING,
     state: DataTypes.STRING,
