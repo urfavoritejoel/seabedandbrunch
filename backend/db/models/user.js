@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Spot, { foreignKey: 'ownerId' });
+      this.hasMany(models.Review, { foreignKey: 'userId' });
+      this.hasMany(models.Booking, { foreignKey: 'userId' });
     }
   }
   User.init({
@@ -37,13 +39,6 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    hashedPassword: {
-      type: DataTypes.STRING.BINARY,
-      allowNull: false,
-      validate: {
-        len: [60, 60]
-      }
-    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false
@@ -51,13 +46,27 @@ module.exports = (sequelize, DataTypes) => {
     lastName: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    hashedPassword: {
+      type: DataTypes.STRING.BINARY,
+      allowNull: false,
+      validate: {
+        len: [60, 60]
+      }
+    },
   }, {
     sequelize,
     modelName: 'User',
     defaultScope: {
       attributes: {
         exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+      }
+    },
+    scopes: {
+      spotOwner: {
+        attributes: {
+          exclude: ["hashedPassword", "email", "createdAt", "updatedAt", "username"]
+        }
       }
     }
   });
