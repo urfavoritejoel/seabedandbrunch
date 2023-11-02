@@ -28,12 +28,12 @@ const validateSpot = [
     check('lat')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .isDecimal({ min: -90, max: 90 })
+        .isFloat({ min: -90, max: 90 })
         .withMessage('Latitude is not valid'),
     check('lng')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .isDecimal({ min: -180, max: 180 })
+        .isFloat({ min: -180, max: 180 })
         .withMessage('Longitude is not valid'),
     check('name')
         .exists({ checkFalsy: true })
@@ -47,8 +47,10 @@ const validateSpot = [
     check('price')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .isNumeric()
         .withMessage('Price per day is required'),
+    check('price')
+        .isInt({ min: 10 })
+        .withMessage('Price cannot be lower than 10'),
 
     handleValidationErrors
 ];
@@ -353,7 +355,10 @@ router.post('/:spotId/bookings', requireAuth, validateBookingConflicts, async (r
 //Create spot
 router.post('/', requireAuth, validateSpot, async (req, res) => {
     const { user } = req;
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    let { address, city, state, country, lat, lng, name, description, price } = req.body;
+    lat = parseFloat(lat);
+    lng = parseFloat(lng);
+    price = parseInt(price);
     const spot = await Spot.create({
         ownerId: user.id,
         address: address,
@@ -584,12 +589,15 @@ router.get('/', validateQueries, async (req, res) => {
         delete spot.Reviews;
     })
 
+    let result = { Spots }
+    if (req.query.page) {
+        result.page = page;
+    }
+    if (req.query.size) {
+        result.size = size;
+    }
 
-
-    res.json({
-        Spots,
-        page, size
-    });
+    res.json(result);
 });
 
 
