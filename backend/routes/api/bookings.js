@@ -151,7 +151,11 @@ router.put('/:bookingId', requireAuth, validateBookingConflicts, async (req, res
     if (Date.now() > startDate || Date.now() > endDate) {
         res.status(403);
         return res.json({
-            message: "Dates in the past"
+            message: "Bad request",
+            errors: {
+                startDate: "startDate cannot be in the past",
+                endDate: "endDate cannot be in the past"
+            }
         })
     }
     const updatedBooking = await booking.update(req.body);

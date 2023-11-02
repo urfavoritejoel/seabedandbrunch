@@ -186,7 +186,11 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     const spotImage = await SpotImage.create(req.body);
     await spotImage.setSpot(spot);
     // await spot.addSpotImage(spotImage);
-    return res.json(spotImage);
+    return res.json({
+        "id": spotImage.id,
+        "url": spotImage.url,
+        "preview": spotImage.preview
+    });
 });
 
 // Add a review to spot by ID
@@ -332,7 +336,11 @@ router.post('/:spotId/bookings', requireAuth, validateBookingConflicts, async (r
     if (Date.now() > startDate || Date.now() > endDate) {
         res.status(403);
         return res.json({
-            message: "Dates in the past"
+            message: "Bad request",
+            errors: {
+                startDate: "startDate cannot be in the past",
+                endDate: "endDate cannot be in the past"
+            }
         })
     }
     const booking = await Booking.create(req.body);
@@ -408,6 +416,7 @@ router.get('/current', requireAuth, async (req, res) => {
         }
         delete spot.SpotImages;
         delete spot.Reviews;
+        delete spot.Owner;
     })
 
 
@@ -462,6 +471,7 @@ router.get('/:spotId', async (req, res) => {
         jSpot.avgRating = 0;
     }
     delete jSpot.Reviews;
+    delete jSpot.Owner;
 
     res.json(jSpot)
 });

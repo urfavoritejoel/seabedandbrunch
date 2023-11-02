@@ -23,10 +23,10 @@ const handleValidationDuplicates = (req, res, next) => {
         const errors = {};
         validationErrors.array().forEach(error => errors[error.path] = error.msg);
 
-        const err = Error("User already exists.");
+        const err = Error("User already exists");
         err.errors = errors;
         err.status = 500;
-        err.title = "User already exists.";
+        // err.title = "User already exists.";
         next(err);
     }
     next();
