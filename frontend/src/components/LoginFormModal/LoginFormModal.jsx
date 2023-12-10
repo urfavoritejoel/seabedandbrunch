@@ -1,27 +1,27 @@
 import { useState } from 'react';
-import * as sessionActions from '../../../store/session';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import * as sessionActions from '../../store/session';
+import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
 import './LoginForm.css';
 
-function LoginFormPage() {
+function LoginFormModal() {
     const dispatch = useDispatch();
-    const sessionUser = useSelector((state) => state.session.user);
-    const [credential, setCredential] = useState('');
-    const [password, setPassword] = useState('');
+    const [credential, setCredential] = useState("");
+    const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
-
-    if (sessionUser) return <Navigate to='/' replace={true} />;
+    const { closeModal } = useModal();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({});
-        return dispatch(sessionActions.loginThunk({ credential, password })).catch(
-            async (res) => {
+        return dispatch(sessionActions.loginThunk({ credential, password }))
+            .then(closeModal)
+            .catch(async (res) => {
                 const data = await res.json();
-                if (data?.errors) setErrors(data.errors);
-            }
-        )
+                if (data && data.errors) {
+                    setErrors(data.errors);
+                }
+            });
     };
 
     return (
@@ -40,17 +40,19 @@ function LoginFormPage() {
                 <label>
                     Password
                     <input
-                        type='password'
+                        type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </label>
-                {errors.credential && <p>{errors.credential}</p>}
-                <button type='submit'>Log In</button>
+                {errors.credential && (
+                    <p>{errors.credential}</p>
+                )}
+                <button type="submit">Log In</button>
             </form>
         </>
     );
 }
 
-export default LoginFormPage;
+export default LoginFormModal;
