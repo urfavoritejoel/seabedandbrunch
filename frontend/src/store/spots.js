@@ -18,6 +18,7 @@ export const getSpotsThunk = () => async (dispatch) => {
 
 const selectSpots = (state) => state.spots;
 export const selectSpotsArray = createSelector(selectSpots, (spots) => Object.values(spots));
+export const selectSpotById = (id) => (state) => state.spots[id];
 
 const initialState = {};
 
