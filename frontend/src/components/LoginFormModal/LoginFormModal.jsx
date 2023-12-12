@@ -18,8 +18,9 @@ function LoginFormModal() {
             .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json();
-                if (data && data.errors) {
-                    setErrors(data.errors);
+                console.log(data);
+                if (data && data.message) {
+                    setErrors({ credential: data.message });
                 }
             });
     };
@@ -33,7 +34,11 @@ function LoginFormModal() {
                     <input
                         type="text"
                         value={credential}
-                        onChange={(e) => setCredential(e.target.value)}
+                        onChange={(e) => {
+                            setCredential(e.target.value);
+                            setErrors({});
+                        }
+                        }
                         required
                     />
                 </label>
@@ -47,9 +52,9 @@ function LoginFormModal() {
                     />
                 </label>
                 {errors.credential && (
-                    <p>{errors.credential}</p>
+                    <p className='errors'>{errors.credential}</p>
                 )}
-                <button type="submit">Log In</button>
+                <button type="submit" disabled={credential.length < 4 || password.length < 6 ? true : false}>Log In</button>
             </form>
         </>
     );
