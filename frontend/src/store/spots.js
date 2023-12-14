@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 import { createSelector } from 'reselect';
 
 const GET_ALL_SPOTS = 'spots/getAll';
+const GET_SPOT = 'spots/getOne';
 
 const getSpots = (spots) => {
     return {
@@ -10,10 +11,23 @@ const getSpots = (spots) => {
     }
 }
 
+const getSpot = (spot) => {
+    return {
+        type: GET_SPOT,
+        payload: spot
+    }
+}
+
 export const getSpotsThunk = () => async (dispatch) => {
     const res = await csrfFetch('/api/spots');
     const data = await res.json();
-    dispatch(getSpots(data))
+    dispatch(getSpots(data.Spots))
+}
+
+export const getSpotThunk = (spotId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}`);
+    const data = await res.json();
+    dispatch(getSpot(data));
 }
 
 const selectSpots = (state) => state.spots;
@@ -26,7 +40,12 @@ const spotsReducer = (state = initialState, action) => {
     let newState = { ...state };
     switch (action.type) {
         case GET_ALL_SPOTS:
-            newState = { ...action.payload };
+            action.payload.forEach(spot => {
+                newState[spot.id] = spot;
+            })
+            return newState;
+        case GET_SPOT:
+            newState[action.payload.id] = action.payload;
             return newState;
         default:
             return state;

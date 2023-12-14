@@ -7,16 +7,21 @@ function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
 
     return (
-        <ul className='navList'>
-            <li>
-                <NavLink to="/">Home</NavLink>
-            </li>
+        <div className='navList'>
+            <div>
+                <NavLink to="/">
+                    <img className='logo' src='https://static.vecteezy.com/system/resources/previews/020/577/134/original/water-drop-sign-in-pixel-art-style-vector.jpg' />
+                </NavLink>
+            </div>
+            <h1>Seabed and Brunch</h1>
+            <div>
+            </div>
             {isLoaded && (
-                <li>
+                <div>
                     <ProfileButton user={sessionUser} />
-                </li>
+                </div>
             )}
-        </ul>
+        </div>
     );
 }
 

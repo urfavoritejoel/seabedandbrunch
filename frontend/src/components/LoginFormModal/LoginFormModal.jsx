@@ -25,6 +25,18 @@ function LoginFormModal() {
             });
     };
 
+    const loginDemo = () => {
+        return dispatch(sessionActions.loginThunk({ credential: 'demoUser', password: 'password' }))
+            .then(closeModal)
+            .catch(async (res) => {
+                const data = await res.json();
+                console.log(data);
+                if (data && data.message) {
+                    setErrors({ credential: data.message });
+                }
+            });
+    };
+
     return (
         <>
             <h1>Log In</h1>
@@ -56,6 +68,9 @@ function LoginFormModal() {
                 )}
                 <button type="submit" disabled={credential.length < 4 || password.length < 6 ? true : false}>Log In</button>
             </form>
+            <p>
+                <button onClick={loginDemo}>Log in as Demo User</button>
+            </p>
         </>
     );
 }

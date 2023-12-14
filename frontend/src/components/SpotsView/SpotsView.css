@@ -1,0 +1,30 @@
+.spotsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.singleSpotImageContainer {
+    width: 350px;
+    height: 350px;
+}
+
+.singleSpotImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.spot {
+    display: grid;
+    width: 350px;
+    height: 400px;
+}
+
+.spotDetails {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+}

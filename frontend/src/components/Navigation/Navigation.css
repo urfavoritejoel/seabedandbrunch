@@ -4,4 +4,10 @@
 
 .navList {
     display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
 }

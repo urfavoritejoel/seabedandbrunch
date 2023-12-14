@@ -1,6 +1,6 @@
 'use strict';
 
-const { Spot } = require('../models')
+const { Spot } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -24,32 +24,8 @@ module.exports = {
         price: 200
       },
       {
-        ownerId: 1,
-        address: '124 Easy St',
-        city: 'Dallas',
-        state: 'Texas',
-        country: 'U.S.',
-        lat: 32.779167,
-        lng: -96.808891,
-        name: 'Nice Place',
-        description: 'See name',
-        price: 200
-      },
-      {
         ownerId: 2,
         address: '125 Easy St',
-        city: 'Dallas',
-        state: 'Texas',
-        country: 'U.S.',
-        lat: 32.779167,
-        lng: -96.808891,
-        name: 'Nice Place',
-        description: 'See name',
-        price: 200
-      },
-      {
-        ownerId: 2,
-        address: '126 Easy St',
         city: 'Dallas',
         state: 'Texas',
         country: 'U.S.',
@@ -72,32 +48,8 @@ module.exports = {
         price: 200
       },
       {
-        ownerId: 3,
-        address: '128 Easy St',
-        city: 'Dallas',
-        state: 'Texas',
-        country: 'U.S.',
-        lat: 32.779167,
-        lng: -96.808891,
-        name: 'Nice Place',
-        description: 'See name',
-        price: 200
-      },
-      {
         ownerId: 4,
         address: '129 Easy St',
-        city: 'Dallas',
-        state: 'Texas',
-        country: 'U.S.',
-        lat: 32.779167,
-        lng: -96.808891,
-        name: 'Nice Place',
-        description: 'See name',
-        price: 200
-      },
-      {
-        ownerId: 4,
-        address: '130 Easy St',
         city: 'Dallas',
         state: 'Texas',
         country: 'U.S.',
@@ -119,18 +71,6 @@ module.exports = {
         description: 'See name',
         price: 200
       },
-      {
-        ownerId: 5,
-        address: '132 Easy St',
-        city: 'Dallas',
-        state: 'Texas',
-        country: 'U.S.',
-        lat: 32.779167,
-        lng: -96.808891,
-        name: 'Nice Place',
-        description: 'See name',
-        price: 200
-      }
     ])
   },
 
@@ -139,8 +79,7 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       address: {
-        [Op.in]: ['123 Easy St', '124 Easy St', '125 Easy St', '126 Easy St', '127 Easy St',
-          '128 Easy St', '129 Easy St', '130 Easy St', '131 Easy St', '132 Easy St',]
+        [Op.in]: ['123 Easy St', '125 Easy St', '127 Easy St', '129 Easy St', '131 Easy St',]
       }
     }, {});
   }

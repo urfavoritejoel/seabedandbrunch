@@ -1,13 +1,19 @@
-// import { useDispatch } from "react-redux"
-
+import './SpotsView.css';
 
 const SingleSpotView = (spot) => {
-    // const dispatch = useDispatch();
-    console.log(spot.spot);
+    spot = spot.spot;
+    // console.log(spot);
     return (
-        <div>
-            <img src={spot.spot.previewImage} />
-        </div>
+        <div className="spot">
+            <div className='singleSpotImageContainer'>
+                <img className='singleSpotImg' src={spot.previewImage} alt={spot.name} title={spot.name} />
+            </div>
+            <div className="spotDetails">
+                <h4> {spot.city}, {spot.state}</h4>
+                <div>Rating: {spot.avgRating === 0 ? "New!" : spot.avgRating}</div>
+            </div>
+            <div>${spot.price} / night</div>
+        </div >
     )
 }
 
