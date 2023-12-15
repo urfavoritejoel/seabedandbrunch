@@ -182,7 +182,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
             message: "Booking couldn't be found"
         });
     };
-    console.log(booking.Spot.ownerId);
+    // console.log(booking.Spot.ownerId);
     if (!requireProperAuth(req.user, booking.userId) && !requireProperAuth(req.user, booking.Spot.ownerId)) {
         res.status(403);
         return res.json({

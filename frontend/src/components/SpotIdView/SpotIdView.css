@@ -18,11 +18,23 @@
 .smallerImages {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    grid-template-rows: 1fr 1fr;
+
 }
 
 .smallerImages img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.descriptionCalloutContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.calloutHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
 }

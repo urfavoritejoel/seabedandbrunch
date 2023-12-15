@@ -476,7 +476,7 @@ router.get('/:spotId', async (req, res) => {
         jSpot.avgRating = 0;
     }
     delete jSpot.Reviews;
-    delete jSpot.Owner;
+    delete jSpot.Owner.username;
 
     res.json(jSpot)
 });
