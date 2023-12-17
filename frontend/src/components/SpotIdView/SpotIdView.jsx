@@ -11,11 +11,11 @@ import ReviewView from "../ReviewView/ReviewView";
 const SpotIdView = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-    console.log("***", Number(id));
     const spot = useSelector(selectSpotById(id));
     const reviews = useSelector(selectReviewsArray);
-    const filteredReviews = reviews.filter(review => review.spotID === Number(id))
-    console.log(filteredReviews);
+    const filteredReviews = reviews.filter(review => review.spotId === Number(id)).reverse();
+    const user = useSelector(state => state.session.user);
+    console.log(spot);
 
 
     useEffect(() => {
@@ -69,14 +69,17 @@ const SpotIdView = () => {
             <div className="reviewsContainer">
                 <div className="reviewsHeader">
                     <i className='fa-solid fa-star'></i>
-                    {spot.avgStarRating === 0 ? "New!" : spot.avgStarRating} {reviews.length > 0 && `${<span>&#183;</span>} ${reviews.length} Review${reviews.length === 1 ? '' : 's'}`}
+                    {spot.avgStarRating === 0 ? "New!" : spot.avgStarRating}
+                    {filteredReviews.length > 0 && <span>&#183;</span>}
+                    {filteredReviews.length > 0 && `${filteredReviews.length} Review${filteredReviews.length > 1 ? 's' : ''}`}
                 </div>
                 <div>
-                    {reviews.map((review) => (
+                    {filteredReviews.length > 0 && filteredReviews.map((review) => (
                         <div key={review.id}>
                             <ReviewView review={review} />
                         </div>
                     ))}
+                    {filteredReviews.length <= 0 && user.id !== spot.ownerId && 'Be the first to post a review!'}
                 </div>
             </div>
         </div>

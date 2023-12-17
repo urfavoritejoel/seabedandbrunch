@@ -473,7 +473,7 @@ router.get('/:spotId', async (req, res) => {
     if (!isNaN(avgRating)) {
         jSpot.avgStarRating = avgRating;
     } else {
-        jSpot.avgRating = 0;
+        jSpot.avgStarRating = 0;
     }
     delete jSpot.Reviews;
     delete jSpot.Owner.username;

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import Navigation from "./components/Navigation/Navigation";
 import SpotsView from "./components/SpotsView/SpotsView";
 import SpotIdView from "./components/SpotIdView/SpotIdView";
+import CreateSpot from "./components/CreateSpot/CreateSpot";
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: ':id',
         element: <SpotIdView />
+      },
+      {
+        path: '/new',
+        element: <CreateSpot />
       }
     ]
   }
