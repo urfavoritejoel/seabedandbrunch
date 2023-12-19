@@ -53,7 +53,7 @@ export const postSpotThunk = (spot) => async (dispatch) => {
         const err = await res.json();
         return err;
     }
-}
+};
 
 const selectSpots = (state) => state.spots;
 export const selectSpotsArray = createSelector(selectSpots, (spots) => Object.values(spots));

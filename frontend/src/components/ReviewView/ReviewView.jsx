@@ -1,6 +1,7 @@
 
 
 const ReviewView = (review) => {
+    review = review.review;
     const months = [
         'Janurary',
         'Feburary',
@@ -16,13 +17,14 @@ const ReviewView = (review) => {
         'December'
     ];
 
-    review = review.review;
+    console.log(review);
+    if (!review) return <h1>Loading...</h1>
     const reviewMonth = months[Number(review.createdAt.slice(5, 7)) - 1];
     const reviewYear = review.createdAt.slice(0, 4);
 
     return (
         <>
-            <h1>{review.User.firstName}</h1>
+            {review.User.firstName && <h1>{review.User.firstName}</h1>}
             <h3>{reviewMonth} {reviewYear}</h3>
             <p>{review.review}</p>
         </>

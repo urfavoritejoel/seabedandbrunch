@@ -7,16 +7,18 @@ import { getReviewsByIdThunk } from "../../store/reviews";
 import { useEffect } from "react";
 import './SpotIdView.css'
 import ReviewView from "../ReviewView/ReviewView";
+import PostReviewModal from "../PostReviewModal/PostReviewModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 const SpotIdView = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const user = useSelector(state => state.session.user);
+    // console.log('spotId user: ', user);
     const spot = useSelector(selectSpotById(id));
     const reviews = useSelector(selectReviewsArray);
     const filteredReviews = reviews.filter(review => review.spotId === Number(id)).reverse();
-    const user = useSelector(state => state.session.user);
-    console.log(spot);
-
+    const userReviews = filteredReviews.filter(review => review.userId === user.id);
 
     useEffect(() => {
         dispatch(getSpotThunk(id));
@@ -66,6 +68,12 @@ const SpotIdView = () => {
                 </div>
             </div>
             <hr></hr>
+            {user.id !== spot.ownerId && !userReviews.length &&
+                <OpenModalButton
+                    buttonText="Post Your Review"
+                    modalComponent={<PostReviewModal user={user} spot={spot} />}
+                />
+            }
             <div className="reviewsContainer">
                 <div className="reviewsHeader">
                     <i className='fa-solid fa-star'></i>

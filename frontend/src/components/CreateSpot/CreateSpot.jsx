@@ -1,20 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { postSpotThunk } from "../../store/spots";
 import { postImageThunk } from "../../store/spotImages";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import './CreateSpot.css'
 
 const CreateSpot = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector(state => state.session.user);
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
-    // const [latitude, setLatitude] = useState('');
-    // const [longitude, setLongitude] = useState('');
+    const [latitude] = useState(1);
+    const [longitude] = useState(1);
     const [description, setDescription] = useState('');
-    const [title, setTitle] = useState('');
+    const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [preview, setPreview] = useState('');
     const [image2, setImage2] = useState('');
@@ -24,36 +26,38 @@ const CreateSpot = () => {
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
-    useEffect(() => {
-        let errors = {};
+    // useEffect(() => {
+    //     let errors = {};
 
-        if (!country.length) errors['country'] = "Country is required";
-        if (!address.length) errors['address'] = "Address is required";
-        if (!city.length) errors['city'] = "City is required";
-        if (!state.length) errors['state'] = "State is required";
-        if (!description.length) errors['description'] = "Description is required";
-        if (description.length > 0 && description.length < 30) errors['description'] = "Description needs 30 or more characters";
-        if (!title.length) errors['title'] = "Title is required";
-        if (!price.length) errors['price'] = "Price is required";
-        if (!preview.length) errors['preview'] = "Preview image is required";
+    //     if (!country.length) errors['country'] = "Country is required";
+    //     if (!address.length) errors['address'] = "Address is required";
+    //     if (!city.length) errors['city'] = "City is required";
+    //     if (!state.length) errors['state'] = "State is required";
+    //     if (!description.length) errors['description'] = "Description is required";
+    //     if (description.length > 0 && description.length < 30) errors['description'] = "Description needs 30 or more characters";
+    //     if (!name.length) errors['name'] = "Title is required";
+    //     if (!price.length) errors['price'] = "Price is required";
+    //     if (!preview.length) errors['preview'] = "Preview image is required";
 
-        setValidationErrors(errors);
-    }, [country, address, city, state, description, title, price, preview, image2, image3, image4, image5]);
+    //     setValidationErrors(errors);
+    // }, [country, address, city, state, description, name, price, preview, image2, image3, image4, image5]);
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         // Prevent the default form behavior so the page doesn't reload.
         e.preventDefault();
-
         setHasSubmitted(true);
 
         const newSpot = {
             country,
+            'ownerId': user.id,
             address,
             city,
             state,
             description,
-            title,
-            'price': Number(price)
+            name,
+            'price': Number(price),
+            'lat': latitude,
+            'lng': longitude
         }
 
         const images = [
@@ -66,30 +70,43 @@ const CreateSpot = () => {
         if (image2) images.push()
 
         if (!validationErrors.length) {
-            const thunkedSpot = dispatch(postSpotThunk(newSpot));
-            console.log("***", thunkedSpot);
+            const spot = await dispatch(postSpotThunk(newSpot))
+                .catch(async (res) => {
+                    const err = await res.json();
+
+                    if (err && err.errors) {
+                        setValidationErrors(err.errors);
+                        console.log(err.errors);
+                    }
+                });
+            // console.log(spot);
             dispatch(postImageThunk({
                 'url': preview,
-                'preview': true
+                'preview': true,
+                'spotId': spot.id
             }))
             if (image2) dispatch(postImageThunk({
                 'url': image2,
-                'preview': false
+                'preview': false,
+                'spotId': spot.id
             }))
             if (image3) dispatch(postImageThunk({
                 'url': image3,
-                'preview': false
+                'preview': false,
+                'spotId': spot.id
             }))
             if (image4) dispatch(postImageThunk({
                 'url': image4,
-                'preview': false
+                'preview': false,
+                'spotId': spot.id
             }))
             if (image5) dispatch(postImageThunk({
                 'url': image5,
-                'preview': false
+                'preview': false,
+                'spotId': spot.id
             }))
+            navigate(`/${spot.id}`)
         }
-        navigate(`/`)
     }
     return (
         <div className="pageContainer">
@@ -152,20 +169,20 @@ const CreateSpot = () => {
                         <hr />
                         {/* <div className="inlineBoxes">
                             <label>Latitude
-                            <input
-                                type="text"
-                                placeholder="Latitude"
-                                value={latitude}
+                                <input
+                                    type="text"
+                                    placeholder="Latitude"
+                                    value={latitude}
                                     onChange={(e) => setLatitude(e.target.value)}
-                            />
+                                />
                             </label>
                             <label>Longitude
-                            <input
-                                type="text"
-                                placeholder="Longitude"
-                                value={longitude}
+                                <input
+                                    type="text"
+                                    placeholder="Longitude"
+                                    value={longitude}
                                     onChange={(e) => setLongitude(e.target.value)}
-                            />
+                                />
                             </label>
                         </div> */}
                     </div>
@@ -195,11 +212,11 @@ const CreateSpot = () => {
                         <input
                             type="text"
                             placeholder="Name of your spot"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
-                        {validationErrors.title && hasSubmitted &&
-                            <p className="error">{validationErrors.title}</p>}
+                        {validationErrors.name && hasSubmitted &&
+                            <p className="error">{validationErrors.name}</p>}
                     </div>
                     <hr />
                     <div className="header">
@@ -229,8 +246,8 @@ const CreateSpot = () => {
                             value={preview}
                             onChange={(e) => setPreview(e.target.value)}
                         />
-                        {validationErrors.preview && hasSubmitted &&
-                            <p className="error">{validationErrors.preview}</p>}
+                        {preview === '' && hasSubmitted &&
+                            <p className="error">Preview Image is Required</p>}
                     </div>
                     <div className="singleBox">
                         <input

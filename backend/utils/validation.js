@@ -27,6 +27,7 @@ const handleValidationDuplicates = (req, res, next) => {
         err.errors = errors;
         err.status = 500;
         // err.title = "User already exists.";
+        console.log(err);
         next(err);
     }
     next();
