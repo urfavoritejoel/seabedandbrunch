@@ -16,7 +16,7 @@ const SpotIdView = () => {
     const user = useSelector(state => state.session.user);
     // console.log('spotId user: ', user);
     const spot = useSelector(selectSpotById(id));
-    const reviews = useSelector(selectReviewsArray);
+    const reviews = useSelector(selectReviewsArray).reverse();
     const filteredReviews = reviews.filter(review => review.spotId === Number(id)).reverse();
     const userReviews = filteredReviews.filter(review => review.userId === user.id);
 

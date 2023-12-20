@@ -235,9 +235,9 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     }
     //Success
     const newReview = await Review.create(req.body);
-    await newReview.setSpot(spot);
-    await newReview.setUser(user);
-    await spot.addReview(newReview);
+    // await newReview.setSpot(spot);
+    // await newReview.setUser(user);
+    // await spot.addReview(newReview);
     res.json(newReview);
 });
 

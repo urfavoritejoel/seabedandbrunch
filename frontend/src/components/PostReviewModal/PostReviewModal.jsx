@@ -20,7 +20,7 @@ function PostReviewModal({ user, spot }) {
             spotId: spot.id
         }
 
-        return dispatch(postReviewThunk(review))
+        return dispatch(postReviewThunk(review, user))
             .then(closeModal)
             .catch(async (res) => {
                 const err = await res.json();
