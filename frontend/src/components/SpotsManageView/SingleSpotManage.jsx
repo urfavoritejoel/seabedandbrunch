@@ -1,6 +1,5 @@
-import './SpotsView.css';
 
-const SingleSpotView = (spot) => {
+const SingleSpotManage = (spot) => {
     spot = spot.spot;
 
     return (
@@ -19,4 +18,4 @@ const SingleSpotView = (spot) => {
     )
 }
 
-export default SingleSpotView;
+export default SingleSpotManage;

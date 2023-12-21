@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 const GET_REVIEWS_BY_ID = 'reviews/getById';
 const POST_REVIEW = 'reviews/post'
+const DELETE_REVIEW = 'spots/delete';
 
 const getReviewsById = (reviews) => {
     return {
@@ -16,7 +17,14 @@ const postReview = (review) => {
         type: POST_REVIEW,
         payload: review
     }
-}
+};
+
+const deleteReview = (review) => {
+    return {
+        type: DELETE_REVIEW,
+        payload: review
+    }
+};
 
 export const getReviewsByIdThunk = (spotId) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
@@ -42,6 +50,21 @@ export const postReviewThunk = (review, user) => async (dispatch) => {
     }
 };
 
+export const deleteReviewThunk = (review) => async (dispatch) => {
+    const res = await csrfFetch(`/api/reviews/${review.id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (res.ok) {
+        dispatch(deleteReview(review));
+        return;
+    } else {
+        const err = await res.json();
+        return err;
+    }
+};
+
 const selectReviews = (state) => state.reviews;
 export const selectReviewsArray = createSelector(selectReviews, (reviews) => Object.values(reviews));
 export const selectReviewById = (id) => (state) => state.reviews[id];
@@ -58,7 +81,10 @@ const reviewsReducer = (state = initialState, action) => {
             return newState;
         case POST_REVIEW:
             newState[action.payload.id] = action.payload;
-            return newState
+            return newState;
+        case DELETE_REVIEW:
+            delete newState[action.payload.id]
+            return newState;
         default:
             return state;
     }

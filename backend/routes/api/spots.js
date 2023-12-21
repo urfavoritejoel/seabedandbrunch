@@ -212,7 +212,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
             }
         ]
     })
-    console.log("spot??? \n\n", spot);
     //If spotId does not exist
     if (!spot) {
         res.status(404);
@@ -224,7 +223,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     if (spot.Reviews.length > 0) {
         for (let i = 0; i < spot.Reviews.length; i++) {
             let review = spot.Reviews[i];
-            console.log("review???: \n\n", review);
             if (review.userId === user.id) {
                 res.status(500);
                 return res.json({
@@ -583,9 +581,9 @@ router.get('/', validateQueries, async (req, res) => {
         })
         avgRating = avgRating / spot.Reviews.length;
         if (!isNaN(avgRating)) {
-            spot.avgRating = avgRating;
+            spot.avgStarRating = avgRating;
         } else {
-            spot.avgRating = 0;
+            spot.avgStarRating = 0;
         }
         delete spot.SpotImages;
         delete spot.Reviews;

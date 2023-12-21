@@ -3,7 +3,9 @@ import { createSelector } from 'reselect';
 
 const GET_ALL_SPOTS = 'spots/getAll';
 const GET_SPOT = 'spots/getOne';
-const POST_SPOT = 'spots/post'
+const POST_SPOT = 'spots/post';
+const PUT_SPOT = 'spots/patch';
+const DELETE_SPOT = 'spots/delete';
 
 const getSpots = (spots) => {
     return {
@@ -25,6 +27,20 @@ const postSpot = (spot) => {
         payload: spot
     }
 }
+
+const putSpot = (spot) => {
+    return {
+        type: PUT_SPOT,
+        payload: spot
+    }
+}
+
+const deleteSpot = (spot) => {
+    return {
+        type: DELETE_SPOT,
+        payload: spot
+    }
+};
 
 export const getSpotsThunk = () => async (dispatch) => {
     const res = await csrfFetch('/api/spots');
@@ -55,6 +71,38 @@ export const postSpotThunk = (spot) => async (dispatch) => {
     }
 };
 
+export const putSpotThunk = (spot) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(spot)
+    });
+
+    if (res.ok) {
+        const updatedSpot = await res.json();
+        dispatch(putSpot(updatedSpot));
+        return updatedSpot;
+    } else {
+        const err = await res.json();
+        return err;
+    }
+};
+
+export const deleteSpotThunk = (spot) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (res.ok) {
+        dispatch(deleteSpot(spot));
+        return;
+    } else {
+        const err = await res.json();
+        return err;
+    }
+};
+
 const selectSpots = (state) => state.spots;
 export const selectSpotsArray = createSelector(selectSpots, (spots) => Object.values(spots));
 export const selectSpotById = (id) => (state) => state.spots[id];
@@ -74,7 +122,13 @@ const spotsReducer = (state = initialState, action) => {
             return newState;
         case POST_SPOT:
             newState[action.payload.id] = action.payload;
-            return newState
+            return newState;
+        case PUT_SPOT:
+            newState[action.payload.id] = action.payload;
+            return newState;
+        case DELETE_SPOT:
+            delete newState[action.payload.id]
+            return newState;
         default:
             return state;
     }

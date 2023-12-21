@@ -15,7 +15,7 @@ function PostReviewModal({ user, spot }) {
 
         const review = {
             review: comment,
-            stars: stars,
+            stars: Number(stars),
             userId: user.id,
             spotId: spot.id
         }

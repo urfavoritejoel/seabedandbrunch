@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getSpotsThunk } from "../../store/spots"
 import { selectSpotsArray } from "../../store/spots";
 import { useEffect } from "react";
-import SingleSpotView from "./singleSpotView";
+import SingleSpotView from "./SingleSpotView";
 import './SpotsView.css';
 import { NavLink } from "react-router-dom";
 

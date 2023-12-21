@@ -17,7 +17,6 @@ const ReviewView = (review) => {
         'December'
     ];
 
-    console.log(review);
     if (!review) return <h1>Loading...</h1>
 
     const reviewMonth = months[Number(review.createdAt.slice(5, 7)) - 1];

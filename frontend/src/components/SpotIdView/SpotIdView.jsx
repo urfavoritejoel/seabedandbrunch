@@ -9,6 +9,7 @@ import './SpotIdView.css'
 import ReviewView from "../ReviewView/ReviewView";
 import PostReviewModal from "../PostReviewModal/PostReviewModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import DeleteReviewModal from "../../DeleteReviewModal/DeleteReviewModal";
 
 const SpotIdView = () => {
     const dispatch = useDispatch();
@@ -18,7 +19,15 @@ const SpotIdView = () => {
     const spot = useSelector(selectSpotById(id));
     const reviews = useSelector(selectReviewsArray).reverse();
     const filteredReviews = reviews.filter(review => review.spotId === Number(id)).reverse();
-    const userReviews = filteredReviews.filter(review => review.userId === user.id);
+    let avgRating = 0;
+    filteredReviews.forEach(review => avgRating += review.stars)
+    avgRating = avgRating / filteredReviews.length.toFixed(2);
+
+    console.log('***\n\n', avgRating);
+    let userReviews;
+    if (user) {
+        userReviews = filteredReviews.filter(review => review.userId === user.id);
+    }
 
     useEffect(() => {
         dispatch(getSpotThunk(id));
@@ -61,23 +70,31 @@ const SpotIdView = () => {
                         </div>
                         <div>
                             <i className='fa-solid fa-star'></i>
-                            {spot.avgStarRating === 0 ? "New!" : spot.avgStarRating}
+                            {avgRating === 0 ? avgRating : "New!"}
+                            {filteredReviews.length > 0 && <span>&#183;</span>}
+                            {filteredReviews.length > 0 && ` ${filteredReviews.length} Review${filteredReviews.length > 1 ? 's' : ''}`}
                         </div>
                     </div>
-                    <p><button onClick={() => alert("Feature coming soon!")}>Reserve</button></p>
+                    {user ?
+                        <p>
+                            <button onClick={() => alert("Feature coming soon!")}>Reserve</button>
+                        </p>
+                        : ''
+                    }
                 </div>
             </div>
             <hr></hr>
-            {user.id !== spot.ownerId && !userReviews.length &&
+            {user ? user.id !== spot.ownerId && !userReviews?.length &&
                 <OpenModalButton
                     buttonText="Post Your Review"
                     modalComponent={<PostReviewModal user={user} spot={spot} />}
                 />
+                : ''
             }
             <div className="reviewsContainer">
                 <div className="reviewsHeader">
                     <i className='fa-solid fa-star'></i>
-                    {spot.avgStarRating === 0 ? "New!" : spot.avgStarRating}
+                    {avgRating === 0 ? avgRating : "New!"}
                     {filteredReviews.length > 0 && <span>&#183;</span>}
                     {filteredReviews.length > 0 && `${filteredReviews.length} Review${filteredReviews.length > 1 ? 's' : ''}`}
                 </div>
@@ -85,6 +102,13 @@ const SpotIdView = () => {
                     {filteredReviews.length > 0 && filteredReviews.map((review) => (
                         <div key={review.id}>
                             <ReviewView review={review} />
+                            {user ? review.userId === user.id &&
+                                <OpenModalButton
+                                    buttonText="Delete"
+                                    modalComponent={<DeleteReviewModal review={review} />}
+                                />
+                                : ''
+                            }
                         </div>
                     ))}
                     {filteredReviews.length <= 0 && user.id !== spot.ownerId && 'Be the first to post a review!'}
