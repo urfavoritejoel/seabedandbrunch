@@ -67,7 +67,6 @@ const CreateSpot = () => {
 
                     if (err && err.errors) {
                         setValidationErrors(err.errors);
-                        console.log(err.errors);
                     }
                 });
             // console.log(spot);

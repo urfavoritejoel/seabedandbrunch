@@ -50,7 +50,6 @@ const userSpotsReducer = (state = initialState, action) => {
     let newState = {};
     switch (action.type) {
         case GET_USER_SPOTS:
-            console.log(action.payload);
             action.payload.forEach(spot => {
                 newState[spot.id] = spot;
             })

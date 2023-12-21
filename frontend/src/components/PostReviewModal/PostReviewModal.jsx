@@ -24,7 +24,7 @@ function PostReviewModal({ user, spot }) {
             .then(closeModal)
             .catch(async (res) => {
                 const err = await res.json();
-                console.log(err);
+
                 if (err && err.errors) {
                     setErrors(err.errors);
                 }
@@ -50,12 +50,13 @@ function PostReviewModal({ user, spot }) {
                         onChange={(e) => setStars(e.target.value)}
                     >
                         <option value={0}>Please select star rating...</option>
-                        <option value={1}>1 Star</option>
-                        <option value={2}>2 Stars</option>
-                        <option value={3}>3 Stars</option>
-                        <option value={4}>4 Stars</option>
-                        <option value={5}>5 Stars</option>
+                        <option value={1}>1</option>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                        <option value={5}>5</option>
                     </select>
+                    Stars
                 </div>
                 <button type="submit" disabled={comment.length < 10 || stars < 1}>Submit Your Review</button>
             </form>

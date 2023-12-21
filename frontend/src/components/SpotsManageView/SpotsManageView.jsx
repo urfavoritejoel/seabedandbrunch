@@ -21,9 +21,11 @@ const SpotsManageView = () => {
     return (
         <div>
             <h1>Manage Spots</h1>
-            <NavLink to={'/new'}>
-                Create a New Spot
-            </NavLink>
+            {spots.length <= 0 &&
+                <NavLink to={'/new'}>
+                    Create a New Spot
+                </NavLink>
+            }
             {spots.length > 0 &&
                 <div className="spotsContainer">
                     {spots.map((spot) => (

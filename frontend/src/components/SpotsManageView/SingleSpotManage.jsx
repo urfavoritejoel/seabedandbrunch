@@ -11,7 +11,7 @@ const SingleSpotManage = (spot) => {
                 <h4> {spot.city}, {spot.state}</h4>
                 <div>
                     <i className='fa-solid fa-star'></i>
-                    {spot.avgRating === 0 ? "New!" : spot.avgRating}</div>
+                    {spot.avgRating === 0 ? "New!" : spot.avgRating.toFixed(2)}</div>
             </div>
             <div>${spot.price} / night</div>
         </div >

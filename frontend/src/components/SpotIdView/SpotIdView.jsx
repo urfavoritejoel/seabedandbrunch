@@ -21,9 +21,8 @@ const SpotIdView = () => {
     const filteredReviews = reviews.filter(review => review.spotId === Number(id)).reverse();
     let avgRating = 0;
     filteredReviews.forEach(review => avgRating += review.stars)
-    avgRating = avgRating / filteredReviews.length.toFixed(2);
+    avgRating = avgRating / filteredReviews.length;
 
-    console.log('***\n\n', avgRating);
     let userReviews;
     if (user) {
         userReviews = filteredReviews.filter(review => review.userId === user.id);
@@ -70,7 +69,7 @@ const SpotIdView = () => {
                         </div>
                         <div>
                             <i className='fa-solid fa-star'></i>
-                            {avgRating === 0 ? avgRating : "New!"}
+                            {avgRating === 0 || isNaN(avgRating) ? "New!" : avgRating.toFixed(2)}
                             {filteredReviews.length > 0 && <span>&#183;</span>}
                             {filteredReviews.length > 0 && ` ${filteredReviews.length} Review${filteredReviews.length > 1 ? 's' : ''}`}
                         </div>
@@ -94,7 +93,7 @@ const SpotIdView = () => {
             <div className="reviewsContainer">
                 <div className="reviewsHeader">
                     <i className='fa-solid fa-star'></i>
-                    {avgRating === 0 ? avgRating : "New!"}
+                    {avgRating === 0 || isNaN(avgRating) ? "New!" : avgRating.toFixed(2)}
                     {filteredReviews.length > 0 && <span>&#183;</span>}
                     {filteredReviews.length > 0 && `${filteredReviews.length} Review${filteredReviews.length > 1 ? 's' : ''}`}
                 </div>
@@ -111,7 +110,9 @@ const SpotIdView = () => {
                             }
                         </div>
                     ))}
-                    {filteredReviews.length <= 0 && user.id !== spot.ownerId && 'Be the first to post a review!'}
+                    {user ?
+                        filteredReviews.length <= 0 && user.id !== spot.ownerId && 'Be the first to post a review!'
+                        : ''}
                 </div>
             </div>
         </div>

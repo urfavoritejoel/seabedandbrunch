@@ -302,7 +302,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         Bookings.push(booking.toJSON());
     })
     Bookings.forEach(booking => {
-        console.log(user.id, "***", booking.Spot.ownerId);
         if (user.id !== booking.Spot.ownerId) {
             delete booking.User;
             delete booking.id;

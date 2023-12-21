@@ -12,7 +12,7 @@ const SingleSpotView = (spot) => {
                 <h4> {spot.city}, {spot.state}</h4>
                 <div>
                     <i className='fa-solid fa-star'></i>
-                    {spot.avgStarRating > 0 ? spot.avgStarRating : "New!"}</div>
+                    {spot.avgStarRating > 0 ? spot.avgStarRating.toFixed(2) : "New!"}</div>
             </div>
             <div>${spot.price} / night</div>
         </div >

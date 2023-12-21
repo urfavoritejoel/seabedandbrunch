@@ -8,7 +8,8 @@ import { NavLink } from "react-router-dom";
 
 const SpotsView = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(selectSpotsArray);
+    const spotArr = useSelector(selectSpotsArray);
+    const spots = spotArr.toReversed();
 
     useEffect(() => {
         dispatch(getSpotsThunk());

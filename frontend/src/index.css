@@ -2,3 +2,11 @@
 h2 {
     color: blue;
 }
+
+.deleteButton {
+    background-color: red;
+}
+
+.cancelDelete {
+    background-color: darkgrey;
+}
