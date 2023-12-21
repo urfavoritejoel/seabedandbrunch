@@ -2,18 +2,21 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react";
 import '../SpotsView/SpotsView.css';
 import { NavLink } from "react-router-dom";
-import { getUserSpotsThunk } from "../../store/userSpots";
-import { selectUserSpotsArray } from "../../store/userSpots";
+import { getSpotsThunk } from "../../store/spots";
+import { selectSpotsArray } from "../../store/spots";
 import SingleSpotManage from "./SingleSpotManage";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import DeleteSpotModal from '../DeleteSpotModal/DeleteSpotModal';
 
 const SpotsManageView = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(selectUserSpotsArray);
+    const user = useSelector(state => state.session.user);
+    const spotsArr = useSelector(selectSpotsArray);
+    const spots = spotsArr.filter(spot => spot.ownerId === user.id)
+    console.log(spots);
 
     useEffect(() => {
-        dispatch(getUserSpotsThunk());
+        dispatch(getSpotsThunk());
     }, [dispatch]);
 
     if (!spots) return <h1>Loading...</h1>

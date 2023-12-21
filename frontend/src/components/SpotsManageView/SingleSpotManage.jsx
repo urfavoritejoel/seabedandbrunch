@@ -1,6 +1,8 @@
 
 const SingleSpotManage = (spot) => {
+    // console.log("first: ***\n\n", spot);
     spot = spot.spot;
+    // console.log("second: ***\n\n", spot);
 
     return (
         <div className="spot">
@@ -11,7 +13,7 @@ const SingleSpotManage = (spot) => {
                 <h4> {spot.city}, {spot.state}</h4>
                 <div>
                     <i className='fa-solid fa-star'></i>
-                    {spot.avgRating === 0 ? "New!" : spot.avgRating.toFixed(2)}</div>
+                    {spot.avgStarRating === 0 ? "New!" : spot.avgStarRating.toFixed(2)}</div>
             </div>
             <div>${spot.price} / night</div>
         </div >
