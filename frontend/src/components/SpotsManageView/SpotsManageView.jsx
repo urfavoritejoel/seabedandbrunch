@@ -13,7 +13,6 @@ const SpotsManageView = () => {
     const user = useSelector(state => state.session.user);
     const spotsArr = useSelector(selectSpotsArray);
     const spots = spotsArr.filter(spot => spot.ownerId === user.id)
-    console.log(spots);
 
     useEffect(() => {
         dispatch(getSpotsThunk());

@@ -4,7 +4,7 @@ const SingleSpotView = (spot) => {
     spot = spot.spot;
 
     return (
-        <div className="spot">
+        <>
             <div className='singleSpotImageContainer'>
                 <img className='singleSpotImg' src={spot.previewImage} alt={spot.name} title={spot.name} />
             </div>
@@ -15,7 +15,7 @@ const SingleSpotView = (spot) => {
                     {spot.avgStarRating > 0 ? spot.avgStarRating.toFixed(2) : "New!"}</div>
             </div>
             <div>${spot.price} / night</div>
-        </div >
+        </ >
     )
 }
 

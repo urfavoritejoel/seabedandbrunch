@@ -10,12 +10,12 @@ function Navigation({ isLoaded }) {
 
     return (
         <div className='navList'>
-            <div>
+            <div className=''>
                 <NavLink to="/">
                     <img className='logo' src='https://static.vecteezy.com/system/resources/previews/020/577/134/original/water-drop-sign-in-pixel-art-style-vector.jpg' />
+                    <h1>Seabed and Brunch</h1>
                 </NavLink>
             </div>
-            <h1>Seabed and Brunch</h1>
             <div>
             </div>
             {isLoaded && (

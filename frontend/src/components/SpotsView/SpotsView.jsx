@@ -22,7 +22,7 @@ const SpotsView = () => {
             <h1>Spots</h1>
             <div className="spotsContainer">
                 {spots.map((spot) => (
-                    <div key={spot.id}>
+                    <div key={spot.id} className="">
                         <NavLink to={`${spot.id}`}>
                             <SingleSpotView spot={spot} />
                         </NavLink>

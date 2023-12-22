@@ -5,6 +5,16 @@
     gap: 10px;
 }
 
+.spotBox {
+    display: flex;
+    align-self: center;
+    width: 350px;
+    justify-content: center;
+    border: 3px black solid;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
 .singleSpotImageContainer {
     width: 350px;
     height: 350px;
@@ -27,4 +37,6 @@
     justify-content: space-between;
     align-items: center;
     height: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
