@@ -45,14 +45,23 @@ const SpotIdView = () => {
                 </h1>
             </div>
             <div>Location: {spot.city}, {spot.state}, {spot.country}</div>
-            <div className="spotIdImageContainer">
-                <div className="biggerImage">
+            <div className="spotIdImageContainer row">
+                <div className="biggerImage column">
                     <img className="spotIdImg" src={previewImage.url} />
                 </div>
-                <div className="smallerImages">
-                    {nonPreviewImages.map(image => <div key={image.id}><img src={image.url} /></div>)}
-
+                <div className="smallerImages column">
+                    <div className="row">
+                        <img src={nonPreviewImages[0].url} key={nonPreviewImages[0].id} />
+                        <img src={nonPreviewImages[1].url} key={nonPreviewImages[1].id} />
+                    </div>
                 </div>
+                <div className="smallerImages2 column">
+                    <div className="row">
+                        <img src={nonPreviewImages[2].url} key={nonPreviewImages[2].id} />
+                        <img src={nonPreviewImages[3].url} key={nonPreviewImages[3].id} />
+                    </div>
+                </div>
+
             </div>
             <div className="host">
                 Hosted by {spot.Owner.firstName} {spot.Owner.lastName}

@@ -12,7 +12,8 @@ function Navigation({ isLoaded }) {
         <div className='navList'>
             <div className=''>
                 <NavLink to="/">
-                    <img className='logo' src='https://static.vecteezy.com/system/resources/previews/020/577/134/original/water-drop-sign-in-pixel-art-style-vector.jpg' />
+                    <img className='logo' src='https://i.ibb.co/1dMXPRr/logo.png' />
+
                     <h1>Seabed and Brunch</h1>
                 </NavLink>
             </div>

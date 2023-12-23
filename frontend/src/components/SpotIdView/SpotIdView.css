@@ -1,13 +1,13 @@
-.spotIdImageContainer {
-    display: grid;
+/* .spotIdImageContainer {
+    display: flex;
     gap: 10px;
-    grid-template-columns: 1fr 1fr;
-}
+    height: 500px;
+} */
 
-.biggerImage {
+/* .biggerImage {
     width: 800px;
     height: 500px;
-}
+} */
 
 .spotIdImg {
     width: 100%;
@@ -16,16 +16,8 @@
 }
 
 .smallerImages {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-
-}
-
-.smallerImages img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 800px;
+    height: 500px;
 }
 
 .descriptionCalloutContainer {
@@ -38,3 +30,8 @@
     justify-content: space-between;
     gap: 5px;
 }
+
+/* .spotIdImg {
+    width: 800px;
+    height: 500px;
+} */

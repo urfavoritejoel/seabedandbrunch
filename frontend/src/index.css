@@ -1,6 +1,7 @@
 /* TODO: Add sitewide styles */
-h2 {
-    color: blue;
+
+* {
+    font-family: Arial, Helvetica, sans-serif
 }
 
 .deleteButton {
@@ -9,4 +10,74 @@ h2 {
 
 .cancelDelete {
     background-color: darkgrey;
+}
+
+body {
+    background-color: #107691;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+a {
+    text-decoration: none;
+    color: #61d3c6;
+}
+
+button {
+    display: inline-flex;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: bold;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #042cbe;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px #000;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #08458a;
+    border: 2px solid #08458a;
+    box-shadow: 5px 5px 0px #08458a;
+}
+
+button:active {
+    background-color: #d1eacc;
+    box-shadow: none;
+    transform: translateY(4px);
+}
+
+.errors {
+    color: red;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+
+@media screen and (max-width: 1915px) {
+    .smallerImages2 {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1465px) {
+    .smallerImages {
+        display: none;
+    }
 }

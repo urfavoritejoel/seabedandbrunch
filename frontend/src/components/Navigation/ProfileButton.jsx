@@ -51,35 +51,37 @@ function ProfileButton({ user }) {
             <button onClick={toggleMenu}>
                 <i className="fas fa-user-circle" />
             </button>
-            <ul className={ulClassName} ref={ulRef}>
-                {user ? (
-                    <>
-                        <li>Hello, {user.firstName}</li>
-                        <li>{user.email}</li>
-                        <li>
-                            <button onClick={manage}>Manage Spots</button>
-                        </li>
-                        <li>
-                            <button onClick={logout}>Log Out</button>
-                        </li>
-                    </>
-                ) : (
-                    <>
-                        <li>
-                            <OpenModalButton
-                                buttonText="Log In"
-                                modalComponent={<LoginFormModal />}
-                            />
-                        </li>
-                        <li>
-                            <OpenModalButton
-                                buttonText="Sign Up"
-                                modalComponent={<SignupFormModal />}
-                            />
-                        </li>
-                    </>
-                )}
-            </ul>
+            <div>
+                <ul className={ulClassName} ref={ulRef}>
+                    {user ? (
+                        <>
+                            <li>Hello, {user.firstName}</li>
+                            <li>{user.email}</li>
+                            <li>
+                                <button onClick={manage}>Manage Spots</button>
+                            </li>
+                            <li>
+                                <button onClick={logout}>Log Out</button>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li>
+                                <OpenModalButton
+                                    buttonText="Log In"
+                                    modalComponent={<LoginFormModal />}
+                                />
+                            </li>
+                            <li>
+                                <OpenModalButton
+                                    buttonText="Sign Up"
+                                    modalComponent={<SignupFormModal />}
+                                />
+                            </li>
+                        </>
+                    )}
+                </ul>
+            </div>
         </>
     );
 }

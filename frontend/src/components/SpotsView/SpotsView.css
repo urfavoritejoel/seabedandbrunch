@@ -13,11 +13,17 @@
     border: 3px black solid;
     border-radius: 10px;
     overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.spotBox:active {
+    transform: translate(2px, 4px);
 }
 
 .singleSpotImageContainer {
     width: 350px;
     height: 350px;
+    border: 2px solid black;
 }
 
 .singleSpotImg {
@@ -39,4 +45,5 @@
     height: 20px;
     padding-left: 5px;
     padding-right: 5px;
+    background-color: #042cbe;
 }

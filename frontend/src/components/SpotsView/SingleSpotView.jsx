@@ -14,7 +14,7 @@ const SingleSpotView = (spot) => {
                     <i className='fa-solid fa-star'></i>
                     {spot.avgStarRating > 0 ? spot.avgStarRating.toFixed(2) : "New!"}</div>
             </div>
-            <div>${spot.price} / night</div>
+            <div className='spotDetails'>${spot.price} / night</div>
         </ >
     )
 }
