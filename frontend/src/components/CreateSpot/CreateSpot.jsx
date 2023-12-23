@@ -70,9 +70,6 @@ const CreateSpot = () => {
             'price': Number(price),
             'lat': latitude,
             'lng': longitude,
-            'SpotImages': [
-                images
-            ]
         }
 
         if (!validationErrors.length) {
@@ -84,7 +81,7 @@ const CreateSpot = () => {
                         setValidationErrors(err.errors);
                     }
                 });
-            console.log(newSpot);
+            console.log(spot);
             dispatch(postImageThunk({
                 'url': preview,
                 'preview': true,

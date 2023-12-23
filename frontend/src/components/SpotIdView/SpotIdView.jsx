@@ -36,6 +36,7 @@ const SpotIdView = () => {
 
     const previewImage = spot.SpotImages.find(image => image.preview === true);
     const nonPreviewImages = spot.SpotImages.filter(image => image.preview === false);
+    console.log(nonPreviewImages);
 
     return (
         <div>
@@ -51,14 +52,22 @@ const SpotIdView = () => {
                 </div>
                 <div className="smallerImages column">
                     <div className="row">
-                        <img src={nonPreviewImages[0].url} key={nonPreviewImages[0].id} />
-                        <img src={nonPreviewImages[1].url} key={nonPreviewImages[1].id} />
+                        {nonPreviewImages.length > 0 ?
+                            <img src={nonPreviewImages[0].url} key={nonPreviewImages[0].id} />
+                            : ''}
+                        {nonPreviewImages.length > 1 ?
+                            <img src={nonPreviewImages[1].url} key={nonPreviewImages[1].id} />
+                            : ''}
                     </div>
                 </div>
                 <div className="smallerImages2 column">
                     <div className="row">
-                        <img src={nonPreviewImages[2].url} key={nonPreviewImages[2].id} />
-                        <img src={nonPreviewImages[3].url} key={nonPreviewImages[3].id} />
+                        {nonPreviewImages.length > 2 ?
+                            <img src={nonPreviewImages[2].url} key={nonPreviewImages[2].id} />
+                            : ''}
+                        {nonPreviewImages.length > 3 ?
+                            <img src={nonPreviewImages[3].url} key={nonPreviewImages[3].id} />
+                            : ''}
                     </div>
                 </div>
 
