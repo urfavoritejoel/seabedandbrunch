@@ -54,10 +54,10 @@ const SpotIdView = () => {
                     <div className="smallerImages column">
                         <div className="row">
                             {nonPreviewImages.length > 0 ?
-                                <img src={nonPreviewImages[0].url} key={nonPreviewImages[0].id} />
+                                <img src={nonPreviewImages[0]?.url} key={nonPreviewImages[0]?.id} />
                                 : ''}
                             {nonPreviewImages.length > 1 ?
-                                <img src={nonPreviewImages[1].url} key={nonPreviewImages[1].id} />
+                                <img src={nonPreviewImages[1]?.url} key={nonPreviewImages[1]?.id} />
                                 : ''}
                         </div>
                     </div>
@@ -66,10 +66,10 @@ const SpotIdView = () => {
                     <div className="smallerImages2 column">
                         <div className="row">
                             {nonPreviewImages.length > 2 ?
-                                <img src={nonPreviewImages[2].url} key={nonPreviewImages[2].id} />
+                                <img src={nonPreviewImages[2]?.url} key={nonPreviewImages[2]?.id} />
                                 : ''}
                             {nonPreviewImages.length > 3 ?
-                                <img src={nonPreviewImages[3].url} key={nonPreviewImages[3].id} />
+                                <img src={nonPreviewImages[3]?.url} key={nonPreviewImages[3]?.id} />
                                 : ''}
                         </div>
                     </div>
