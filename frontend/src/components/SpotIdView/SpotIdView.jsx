@@ -15,9 +15,8 @@ const SpotIdView = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const user = useSelector(state => state.session.user);
-    // console.log('spotId user: ', user);
     const spot = useSelector(selectSpotById(id));
-    const reviews = useSelector(selectReviewsArray).reverse();
+    const reviews = useSelector(selectReviewsArray);
     const filteredReviews = reviews.filter(review => review.spotId === Number(id)).reverse();
     let avgRating = 0;
     filteredReviews.forEach(review => avgRating += review.stars)
@@ -83,13 +82,6 @@ const SpotIdView = () => {
                 </div>
             </div>
             <hr></hr>
-            {user ? user.id !== spot.ownerId && !userReviews?.length &&
-                <OpenModalButton
-                    buttonText="Post Your Review"
-                    modalComponent={<PostReviewModal user={user} spot={spot} />}
-                />
-                : ''
-            }
             <div className="reviewsContainer">
                 <div className="reviewsHeader">
                     <i className='fa-solid fa-star'></i>
@@ -97,6 +89,13 @@ const SpotIdView = () => {
                     {filteredReviews.length > 0 && <span>&#183;</span>}
                     {filteredReviews.length > 0 && `${filteredReviews.length} Review${filteredReviews.length > 1 ? 's' : ''}`}
                 </div>
+                {user ? user.id !== spot.ownerId && !userReviews?.length &&
+                    <OpenModalButton
+                        buttonText="Post Your Review"
+                        modalComponent={<PostReviewModal user={user} spot={spot} />}
+                    />
+                    : ''
+                }
                 <div>
                     {filteredReviews.length > 0 && filteredReviews.map((review) => (
                         <div key={review.id}>

@@ -47,6 +47,18 @@ const CreateSpot = () => {
         e.preventDefault();
         setHasSubmitted(true);
 
+        const images = [
+            {
+                'url': preview,
+                'preview': true,
+            },
+        ];
+
+        if (image2) images.push({ 'url': image2, preview: false });
+        if (image3) images.push({ 'url': image3, preview: false });
+        if (image4) images.push({ 'url': image4, preview: false });
+        if (image5) images.push({ 'url': image5, preview: false });
+
         const newSpot = {
             country,
             'ownerId': user.id,
@@ -57,7 +69,10 @@ const CreateSpot = () => {
             name,
             'price': Number(price),
             'lat': latitude,
-            'lng': longitude
+            'lng': longitude,
+            'SpotImages': [
+                images
+            ]
         }
 
         if (!validationErrors.length) {
@@ -69,7 +84,7 @@ const CreateSpot = () => {
                         setValidationErrors(err.errors);
                     }
                 });
-            // console.log(spot);
+            console.log(newSpot);
             dispatch(postImageThunk({
                 'url': preview,
                 'preview': true,

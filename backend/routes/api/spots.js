@@ -13,18 +13,30 @@ const validateSpot = [
         .exists({ checkFalsy: true })
         .notEmpty()
         .withMessage('Street address is required'),
+    check('address')
+        .isLength({ max: 255 })
+        .withMessage('Address cannot be longer than 255 characters'),
     check('city')
         .exists({ checkFalsy: true })
         .notEmpty()
         .withMessage('City is required'),
+    check('city')
+        .isLength({ max: 255 })
+        .withMessage('City cannot be longer than 255 characters'),
     check('state')
         .exists({ checkFalsy: true })
         .notEmpty()
         .withMessage('State is required'),
+    check('state')
+        .isLength({ max: 255 })
+        .withMessage('State cannot be longer than 255 characters'),
     check('country')
         .exists({ checkFalsy: true })
         .notEmpty()
         .withMessage('Country is required'),
+    check('country')
+        .isLength({ max: 255 })
+        .withMessage('Country cannot be longer than 255 characters'),
     check('lat')
         .exists({ checkFalsy: true })
         .notEmpty()
@@ -44,6 +56,9 @@ const validateSpot = [
         .exists({ checkFalsy: true })
         .notEmpty()
         .withMessage('Description is required'),
+    check('description')
+        .isLength({ max: 255 })
+        .withMessage('Description cannot be longer than 255 characters'),
     check('price')
         .exists({ checkFalsy: true })
         .notEmpty()
@@ -51,6 +66,9 @@ const validateSpot = [
     check('price')
         .isInt({ min: 10 })
         .withMessage('Price cannot be lower than 10'),
+    check('price')
+        .isInt({ max: 100000000 })
+        .withMessage('Price cannot be higher than 100,000,000'),
 
     handleValidationErrors
 ];
