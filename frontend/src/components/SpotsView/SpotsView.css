@@ -16,20 +16,18 @@
     transition: all 0.3s ease;
 }
 
-.spotBox:active {
-    transform: translate(2px, 4px);
+.spotBox:hover {
+    transform: translate(2px, 2px);
+
+    .spotDetails {
+        background-color: #d1eacc;
+    }
 }
 
 .singleSpotImageContainer {
     width: 350px;
     height: 350px;
     border: 2px solid black;
-}
-
-.singleSpotImg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 .spot {

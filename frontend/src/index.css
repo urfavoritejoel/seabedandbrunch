@@ -14,8 +14,8 @@
 
 body {
     background-color: #107691;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 a {
@@ -56,20 +56,6 @@ button:active {
     color: red;
 }
 
-.row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
-}
-
 @media screen and (max-width: 1915px) {
     .smallerImages2 {
         display: none;
@@ -80,4 +66,64 @@ button:active {
     .smallerImages {
         display: none;
     }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 280px);
+    grid-template-rows: repeat(2, 240px);
+    grid-gap: 5px;
+}
+
+.biggerImage {
+    display: grid;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.smallImage {
+    display: grid;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+.smallImage2 {
+    display: grid;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 4;
+    grid-column-end: 5;
+}
+
+.smallImage3 {
+    display: grid;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+.smallImage4 {
+    display: grid;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 4;
+    grid-column-end: 5;
+}
+
+.box {
+    border: 5px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
 }

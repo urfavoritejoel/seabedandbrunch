@@ -46,34 +46,34 @@ const SpotIdView = () => {
                 </h1>
             </div>
             <div>Location: {spot.city}, {spot.state}, {spot.country}</div>
-            <div className="spotIdImageContainer row">
-                <div className="biggerImage column">
+            <div className="spotIdImageContainer grid">
+                <div className="biggerImage box">
                     <img className="spotIdImg" src={previewImage.url} />
                 </div>
+
+
                 {nonPreviewImages.length > 0 ?
-                    <div className="smallerImages column">
-                        <div className="row">
-                            {nonPreviewImages.length > 0 ?
-                                <img src={nonPreviewImages[0]?.url} key={nonPreviewImages[0]?.id} />
-                                : ''}
-                            {nonPreviewImages.length > 1 ?
-                                <img src={nonPreviewImages[1]?.url} key={nonPreviewImages[1]?.id} />
-                                : ''}
-                        </div>
+                    <div className="smallImage box">
+                        <img src={nonPreviewImages[0]?.url} key={nonPreviewImages[0]?.id} />
                     </div>
                     : ''}
-                {nonPreviewImages.length > 0 ?
-                    <div className="smallerImages2 column">
-                        <div className="row">
-                            {nonPreviewImages.length > 2 ?
-                                <img src={nonPreviewImages[2]?.url} key={nonPreviewImages[2]?.id} />
-                                : ''}
-                            {nonPreviewImages.length > 3 ?
-                                <img src={nonPreviewImages[3]?.url} key={nonPreviewImages[3]?.id} />
-                                : ''}
-                        </div>
+                {nonPreviewImages.length > 1 ?
+                    <div className="smallImage2 box">
+                        <img src={nonPreviewImages[1]?.url} key={nonPreviewImages[1]?.id} />
                     </div>
                     : ''}
+                {nonPreviewImages.length > 2 ?
+                    <div className="smallImage3 box">
+                        <img src={nonPreviewImages[2]?.url} key={nonPreviewImages[2]?.id} />
+                    </div>
+                    : ''}
+                {nonPreviewImages.length > 3 ?
+                    <div className="smallImage4 box">
+                        <img src={nonPreviewImages[3]?.url} key={nonPreviewImages[3]?.id} />
+
+                    </div>
+                    : ''}
+
             </div>
             <div className="host">
                 Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
@@ -131,7 +131,7 @@ const SpotIdView = () => {
                         </div>
                     ))}
                     {user ?
-                        filteredReviews.length <= 0 && user.id !== spot.ownerId && 'Be the first to post a review!'
+                        filteredReviews.length <= 0 && user.id !== spot.ownerId && <p>Be the first to post a review!</p>
                         : ''}
                 </div>
             </div>
