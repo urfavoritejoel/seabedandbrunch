@@ -62,17 +62,18 @@ const SpotIdView = () => {
                         </div>
                     </div>
                     : ''}
-                <div className="smallerImages2 column">
-                    <div className="row">
-                        {nonPreviewImages.length > 2 ?
-                            <img src={nonPreviewImages[2].url} key={nonPreviewImages[2].id} />
-                            : ''}
-                        {nonPreviewImages.length > 3 ?
-                            <img src={nonPreviewImages[3].url} key={nonPreviewImages[3].id} />
-                            : ''}
+                {nonPreviewImages.length > 0 ?
+                    <div className="smallerImages2 column">
+                        <div className="row">
+                            {nonPreviewImages.length > 2 ?
+                                <img src={nonPreviewImages[2].url} key={nonPreviewImages[2].id} />
+                                : ''}
+                            {nonPreviewImages.length > 3 ?
+                                <img src={nonPreviewImages[3].url} key={nonPreviewImages[3].id} />
+                                : ''}
+                        </div>
                     </div>
-                </div>
-
+                    : ''}
             </div>
             <div className="host">
                 Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
