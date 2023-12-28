@@ -1,12 +1,12 @@
 #modal {
     position: fixed;
-    top: 0;
+    top: 200px;
     right: 0;
     left: 0;
     bottom: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
 }
 
 #modal-background {
@@ -20,5 +20,9 @@
 
 #modal-content {
     position: absolute;
-    background-color: white;
+    background-color: rgb(58, 122, 173);
+    border: 3px black solid;
+    border-radius: 20px;
+    width: 280px;
+    padding: 5px;
 }

@@ -1,7 +1,8 @@
 /* TODO: Add sitewide styles */
 
 * {
-    font-family: Arial, Helvetica, sans-serif
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
 .deleteButton {
@@ -25,7 +26,7 @@ a {
 
 button {
     display: inline-flex;
-    padding: 10px 20px;
+    padding: 10px 10px;
     font-size: 12px;
     font-weight: bold;
     align-items: center;
@@ -34,22 +35,28 @@ button {
     background-color: #042cbe;
     border: 2px solid #000;
     border-radius: 10px;
-    box-shadow: 5px 5px 0px #000;
+    box-shadow: 2px 2px 0px #000;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
-button:hover {
+button:not([disabled]):hover {
     background-color: #fff;
     color: #08458a;
     border: 2px solid #08458a;
-    box-shadow: 5px 5px 0px #08458a;
+    box-shadow: 2px 2px 0px #08458a;
 }
 
-button:active {
+button:not([disabled]):active {
     background-color: #d1eacc;
     box-shadow: none;
     transform: translateY(4px);
+}
+
+button:disabled {
+    background-color: darkgrey;
+    box-shadow: none;
+    color: #524b4b;
 }
 
 .errors {
@@ -126,4 +133,12 @@ img {
     height: 100%;
     object-fit: cover;
     overflow: hidden;
+}
+
+label {
+    align-self: center;
+}
+
+hr {
+    width: 100%;
 }

@@ -1,21 +1,76 @@
-<!--!!START SILENT -->
-# AirBnB Clone
-<!--!!END -->
-<!--!!ADD -->
-<!-- # `<name of application here>` -->
-<!--!!END_ADD -->
+# Seabed and Brunch
+
+Seabed and brunch is a clone of existing home-booking service sites. It offers basic functionality such as signup, login, creating and updating spots (the houses), adding images to said spots, and reviews.
+
+## MVP List
+
+***Spots***
+
+*Create Spot*
+
+There is a "create spot" on the navigation bar while a user is logged in. Clicking this button navigates to a form with the following inputs:
+
+Country * Address * City * State * Description * Title * Price * Preview Image * Four additional, optional images
+
+All fields are required except the four additional images. Any errors from the backend are shown when attempting to submit the form, which prevents submission. Upon successful submission, the new spot is added to the database and shown.
+
+***Reviews***
+
+*Post a Review*
+
+If a user is logged in and viewing a spot that they both do NOT own, and have NOT left a review on, there is a button to post their review. Clicking the button will open a modal with an input for the review, and number of stars they would rate the spot. Both fields are required. Any errors from the backend are shown when attempting to submit the form, which prevents submission. Upon successful submission, the new review is added to the spot.
+
+## Redux State Outline
+
+```
+const seabednb = {
+  spots: {
+    id: {
+      address: 'address of spot',
+      city: 'city',
+      state: 'state',
+      country: 'country',
+      lat: 'latitude',
+      lng: 'longitude',
+      name: 'Title of spot',
+      description: 'Description',
+      price: 'Price'
+    }
+  },
+  userSpots: {
+    id: {
+      address: 'address of spot',
+      city: 'city',
+      state: 'state',
+      country: 'country',
+      lat: 'latitude',
+      lng: 'longitude',
+      name: 'Title of spot',
+      description: 'Description',
+      price: 'Price'
+    }
+  },
+  spotImages: {
+    id: {
+      url: 'url address of image'
+      preview: 'boolean, whether image is set to preview image for spot'
+    }
+  },
+  reviews: {
+    id: {
+      review: 'Review text',
+      stars: 'Rating for review'
+    }
+  }
+}
+```
 
 ## Database Schema Design
 
-<!--!!START SILENT -->
 ![airbnb-database-schema]
 
 [airbnb-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/airbnb-db-schema.png
 [airbnb-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/airbnb-db-diagram-info.txt
-<!--!!END -->
-<!--!!ADD -->
-<!-- `<insert database schema design here>` -->
-<!--!!END_ADD -->
 
 ## API Documentation
 

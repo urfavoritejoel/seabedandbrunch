@@ -112,64 +112,64 @@ const CreateSpot = () => {
     }
     return (
         <div className="pageContainer">
-            <div className="Header">
+            <div className="header">
                 <h1>Create a new Spot</h1>
             </div>
             <div>
-                <form onSubmit={handleSubmit}>
-                    <div className="formContainer">
-                        <div className="header">
-                            <h2>Where&apos;s your place located?</h2>
-                            <h3>Guests will only get your exact address once they booked a reservation.</h3>
-                        </div>
-                        <div className="singleBox">
-                            <label>Country
-                                <input
-                                    type="text"
-                                    placeholder="Country"
-                                    value={country}
-                                    onChange={(e) => setCountry(e.target.value)}
-                                />
-                            </label>
-                            {validationErrors.country && hasSubmitted &&
-                                <p className="error">{validationErrors.country}</p>}
-                        </div>
-                        <div className="singleBox">
-                            <label>Street Address
-                                <input
-                                    type="text"
-                                    placeholder="Address"
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                />
-                            </label>
-                            {validationErrors.address && hasSubmitted &&
-                                <p className="error">{validationErrors.address}</p>}
-                        </div>
-                        <div className="inlineBoxes">
-                            <label>City
-                                <input
-                                    type="text"
-                                    placeholder="City"
-                                    value={city}
-                                    onChange={(e) => setCity(e.target.value)}
-                                />
-                            </label>
-                            {validationErrors.city && hasSubmitted &&
-                                <p className="error">{validationErrors.city}</p>}
-                            <label>State
-                                <input
-                                    type="text"
-                                    placeholder="State"
-                                    value={state}
-                                    onChange={(e) => setState(e.target.value)}
-                                />
-                            </label>
-                            {validationErrors.state && hasSubmitted &&
-                                <p className="error">{validationErrors.state}</p>}
-                        </div>
-                        <hr />
-                        {/* <div className="inlineBoxes">
+                <form onSubmit={handleSubmit} className="formContainer">
+
+                    <div className="header">
+                        <h2>Where&apos;s your place located?</h2>
+                        <h3>Guests will only get your exact address once they booked a reservation.</h3>
+                    </div>
+                    <div className="singleBox">
+                        <label>Country
+                            <input
+                                type="text"
+                                placeholder="Country"
+                                value={country}
+                                onChange={(e) => setCountry(e.target.value)}
+                            />
+                        </label>
+                        {validationErrors.country && hasSubmitted &&
+                            <p className="error">{validationErrors.country}</p>}
+                    </div>
+                    <div className="singleBox">
+                        <label>Street Address
+                            <input
+                                type="text"
+                                placeholder="Address"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </label>
+                        {validationErrors.address && hasSubmitted &&
+                            <p className="error">{validationErrors.address}</p>}
+                    </div>
+                    <div className="inlineBoxes">
+                        <label>City
+                            <input
+                                type="text"
+                                placeholder="City"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                            />
+                        </label>
+                        {validationErrors.city && hasSubmitted &&
+                            <p className="error">{validationErrors.city}</p>}
+                        <label>State
+                            <input
+                                type="text"
+                                placeholder="State"
+                                value={state}
+                                onChange={(e) => setState(e.target.value)}
+                            />
+                        </label>
+                        {validationErrors.state && hasSubmitted &&
+                            <p className="error">{validationErrors.state}</p>}
+                    </div>
+                    <hr />
+                    {/* <div className="inlineBoxes">
                             <label>Latitude
                                 <input
                                     type="text"
@@ -187,7 +187,7 @@ const CreateSpot = () => {
                                 />
                             </label>
                         </div> */}
-                    </div>
+
                     <div className="header">
                         <h2>Describe your place to guests</h2>
                         <h3>Mention the best features of your space, any special amenities like fast wifi

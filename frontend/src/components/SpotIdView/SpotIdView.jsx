@@ -82,7 +82,7 @@ const SpotIdView = () => {
                 <p>
                     {spot.description}
                 </p>
-                <div>
+                <div className="ratingsReserve">
                     <div className="calloutHeader">
                         <div>
                             ${spot.price} / Night

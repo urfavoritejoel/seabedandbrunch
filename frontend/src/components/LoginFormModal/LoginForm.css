@@ -1,0 +1,21 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.formContainer button {
+    width: 60%;
+    align-self: center;
+}
+
+.formContainer input {
+    width: 60%;
+    align-self: center;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}
