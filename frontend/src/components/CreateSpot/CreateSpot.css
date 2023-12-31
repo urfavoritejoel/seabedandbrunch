@@ -3,5 +3,42 @@
 }
 
 .header {
-    align-self: center
+    display: flex;
+    flex-direction: column;
+}
+
+.inlineBoxes {
+    display: grid;
+    object-fit: cover;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.inlineBoxes input {
+    width: 100%
+}
+
+.singleBox {
+    align-self: center;
+    width: 100%;
+    object-fit: cover;
+}
+
+.singleBox input {
+    width: 100%
+}
+
+.singleBox textarea {
+    width: 100%;
+    height: 100px;
+}
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.cash {
+    display: flex;
 }

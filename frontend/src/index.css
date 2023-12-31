@@ -15,8 +15,8 @@
 
 body {
     background-color: #107691;
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 
 a {
@@ -135,8 +135,10 @@ img {
     overflow: hidden;
 }
 
-label {
+label,
+input {
     align-self: center;
+    display: block;
 }
 
 hr {

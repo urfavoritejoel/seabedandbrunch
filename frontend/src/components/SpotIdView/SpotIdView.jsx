@@ -36,7 +36,6 @@ const SpotIdView = () => {
 
     const previewImage = spot.SpotImages.find(image => image.preview === true);
     const nonPreviewImages = spot.SpotImages.filter(image => image.preview === false);
-    console.log(nonPreviewImages);
 
     return (
         <div>

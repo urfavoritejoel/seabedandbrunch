@@ -171,7 +171,7 @@ const UpdateSpot = () => {
                         <h3>Competitive pricing can help your listing stand out and rank higher in search results.
                         </h3>
                     </div>
-                    <div className="singleBox">
+                    <div className="singleBox cash">
                         $ <input
                             type="text"
                             placeholder="Price per night (USD)"

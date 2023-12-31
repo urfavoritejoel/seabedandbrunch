@@ -1,0 +1,9 @@
+.reviewComment textarea {
+    width: 100%;
+    height: 80px;
+}
+
+select {
+    width: 90%;
+    margin-bottom: 10px;
+}

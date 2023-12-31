@@ -81,7 +81,6 @@ const CreateSpot = () => {
                         setValidationErrors(err.errors);
                     }
                 });
-            console.log(spot);
             dispatch(postImageThunk({
                 'url': preview,
                 'preview': true,
@@ -226,7 +225,7 @@ const CreateSpot = () => {
                         <h3>Competitive pricing can help your listing stand out and rank higher in search results.
                         </h3>
                     </div>
-                    <div className="singleBox">
+                    <div className="singleBox cash">
                         $ <input
                             type="text"
                             placeholder="Price per night (USD)"

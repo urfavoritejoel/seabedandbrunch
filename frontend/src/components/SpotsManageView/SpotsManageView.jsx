@@ -4,7 +4,7 @@ import '../SpotsView/SpotsView.css';
 import { NavLink } from "react-router-dom";
 import { getSpotsThunk } from "../../store/spots";
 import { selectSpotsArray } from "../../store/spots";
-import SingleSpotManage from "./SingleSpotManage";
+import SingleSpotView from "../SpotsView/SingleSpotView";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import DeleteSpotModal from '../DeleteSpotModal/DeleteSpotModal';
 
@@ -25,16 +25,18 @@ const SpotsManageView = () => {
             <h1>Manage Spots</h1>
             {spots.length <= 0 &&
                 <NavLink to={'/new'}>
-                    Create a New Spot
+                    <button>Create a New Spot</button>
                 </NavLink>
             }
             {spots.length > 0 &&
                 <div className="spotsContainer">
                     {spots.map((spot) => (
-                        <div key={spot.id}>
-                            <NavLink to={`../${spot.id}`}>
-                                <SingleSpotManage spot={spot} />
-                            </NavLink>
+                        <div key={spot.id} className="outerBox">
+                            <div className="spotBox">
+                                <NavLink to={`../${spot.id}`}>
+                                    <SingleSpotView spot={spot} />
+                                </NavLink>
+                            </div>
                             <NavLink to={`/manage/${spot.id}`}>
                                 <button>Update</button>
                             </NavLink>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { postReviewThunk } from '../../store/reviews';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import './PostReviewModal.css';
 
 function PostReviewModal({ user, spot }) {
     const dispatch = useDispatch();
