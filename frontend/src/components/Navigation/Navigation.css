@@ -29,3 +29,9 @@
     gap: 10px;
     height: 20px;
 }
+
+.menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
