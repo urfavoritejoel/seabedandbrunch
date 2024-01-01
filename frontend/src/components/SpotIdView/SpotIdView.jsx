@@ -47,7 +47,11 @@ const SpotIdView = () => {
             <div>Location: {spot.city}, {spot.state}, {spot.country}</div>
             <div className="spotIdImageContainer grid">
                 <div className="biggerImage box">
-                    <img className="spotIdImg" src={previewImage.url} />
+                    {previewImage ?
+                        <img className="spotIdImg" src={previewImage.url} />
+                        :
+                        ''
+                    }
                 </div>
 
 

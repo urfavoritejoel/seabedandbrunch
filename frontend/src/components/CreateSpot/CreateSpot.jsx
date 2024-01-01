@@ -47,17 +47,6 @@ const CreateSpot = () => {
         e.preventDefault();
         setHasSubmitted(true);
 
-        const images = [
-            {
-                'url': preview,
-                'preview': true,
-            },
-        ];
-
-        if (image2) images.push({ 'url': image2, preview: false });
-        if (image3) images.push({ 'url': image3, preview: false });
-        if (image4) images.push({ 'url': image4, preview: false });
-        if (image5) images.push({ 'url': image5, preview: false });
 
         const newSpot = {
             country,
@@ -85,27 +74,12 @@ const CreateSpot = () => {
                 'url': preview,
                 'preview': true,
                 'spotId': spot.id
-            }))
-            if (image2) dispatch(postImageThunk({
-                'url': image2,
-                'preview': false,
-                'spotId': spot.id
-            }))
-            if (image3) dispatch(postImageThunk({
-                'url': image3,
-                'preview': false,
-                'spotId': spot.id
-            }))
-            if (image4) dispatch(postImageThunk({
-                'url': image4,
-                'preview': false,
-                'spotId': spot.id
-            }))
-            if (image5) dispatch(postImageThunk({
-                'url': image5,
-                'preview': false,
-                'spotId': spot.id
-            }))
+            }));
+
+            if (image2) dispatch(postImageThunk({ 'url': image2, preview: false, 'spotId': spot.id }));
+            if (image3) dispatch(postImageThunk({ 'url': image3, preview: false, 'spotId': spot.id }));
+            if (image4) dispatch(postImageThunk({ 'url': image4, preview: false, 'spotId': spot.id }));
+            if (image5) dispatch(postImageThunk({ 'url': image5, preview: false, 'spotId': spot.id }));
             navigate(`/${spot.id}`)
         }
     }

@@ -11,6 +11,7 @@ const postImage = (image) => {
 }
 
 export const postImageThunk = (image) => async (dispatch) => {
+    console.log(image);
     const res = await csrfFetch(`/api/spots/${image.spotId}/images`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
